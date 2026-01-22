@@ -25,9 +25,48 @@ export function DocumentList() {
 
     const loadDocs = async () => {
         setIsLoading(true);
-        const docs = await mockApi.getDocuments();
-        setDocuments(docs);
-        setIsLoading(false);
+        try {
+            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+            console.log("Fetching documents from:", `${backendUrl}/api/admin/documents`);
+            const response = await fetch(`${backendUrl}/api/admin/documents`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+
+                // Map backend response fields to our Document type
+                const mapBackendDoc = (d: any): Document => ({
+                    id: d.id || d.service_submodule || Math.random().toString(36).substring(2, 9),
+                    service_id: d.service_id,
+                    service_submodule: d.service_submodule,
+                    blob_directory: d.blob_directory,
+                    page_from_inclusive: d.page_from_inclusive,
+                    page_to_inclusive: d.page_to_inclusive,
+                    // Derived UI fields
+                    filename: d.filename || (d.blob_directory ? d.blob_directory.split('/').pop() : d.service_submodule) || "Manual",
+                    uploadedBy: d.uploadedBy || "System",
+                    uploadedAt: d.uploadedAt || d.uploaded_at || new Date().toISOString(),
+                    size: d.size || "N/A",
+                    pageCount: d.pageCount || (d.page_to_inclusive !== undefined ? d.page_to_inclusive - d.page_from_inclusive + 1 : 0),
+                    boundaries: d.boundaries || (d.page_from_inclusive !== undefined ? [
+                        { type: "include", pageStart: d.page_from_inclusive, pageEnd: d.page_to_inclusive || d.page_from_inclusive }
+                    ] : [])
+                });
+
+                const docs = (Array.isArray(data) ? data : data ? [data] : []).map(mapBackendDoc);
+                setDocuments(docs);
+            } else {
+                console.error("Failed to load documents", response.status);
+            }
+        } catch (error) {
+            console.error("Error loading documents:", error);
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {

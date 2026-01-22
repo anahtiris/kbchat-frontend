@@ -15,6 +15,11 @@ export interface RagBoundary {
 
 export interface Document {
     id: string;
+    service_id: number;
+    service_submodule: string;
+    blob_directory: string;
+    page_from_inclusive: number;
+    page_to_inclusive: number;
     filename: string;
     uploadedBy: string;
     uploadedAt: string; // ISO date

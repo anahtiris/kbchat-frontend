@@ -56,7 +56,7 @@ export function Sidebar() {
                 <div className="flex h-16 items-center justify-between px-6 font-bold tracking-wider">
                     <div className="flex items-center">
                         <LayoutDashboard className="mr-2 h-6 w-6 text-blue-400" />
-                        CLINIC<span className="text-blue-400">AI</span>
+                        ONDA<span className="text-blue-400">MED</span>
                     </div>
                     <Button
                         variant="ghost"

@@ -52,13 +52,14 @@ export function BoundaryEditor({
         onSave();
     };
 
-    const translateError = (message: string) => {
-        // Simple mapping because validation logic returns hardcoded english strings
-        // Ideally validation logic should return codes, and we map codes to t.docs.error
-        if (message.includes("Start page must")) return t.docs.rangeError;
-        if (message.includes("Overlaps")) return t.docs.overlapError;
-        // Fallback
-        return message;
+    const translateError = (err: any) => {
+        switch (err.code) {
+            case "PAGE_MIN": return t.docs.pageMinError;
+            case "PAGE_MAX": return `${t.docs.pageMaxError} ${err.params?.max}`;
+            case "INVALID_RANGE": return t.docs.rangeError;
+            case "OVERLAP": return `${t.docs.overlapErrorWith}${err.params?.otherIndex}`;
+            default: return t.common.unknownError;
+        }
     };
 
     return (
@@ -130,7 +131,7 @@ export function BoundaryEditor({
                                 <div className="mt-2 text-xs text-red-600 flex flex-col gap-0.5 animate-in slide-in-from-top-1">
                                     {fieldErrors.map((err, i) => (
                                         <span key={i} className="flex items-center gap-1">
-                                            <AlertCircle className="h-3 w-3" /> {translateError(err.message)}
+                                            <AlertCircle className="h-3 w-3" /> {translateError(err)}
                                         </span>
                                     ))}
                                 </div>
@@ -141,7 +142,7 @@ export function BoundaryEditor({
 
                 {boundaries.length === 0 && (
                     <div className="py-6 text-center text-sm text-slate-400 border-2 border-dashed border-slate-300 rounded-md bg-slate-50/50">
-                        No custom boundaries set (Entire document included)
+                        {t.docs.noBoundaries}
                     </div>
                 )}
             </div>

@@ -5,9 +5,11 @@ import { Bell, Menu } from "lucide-react";
 import { LanguageSwitcher } from "./language-switcher";
 import { useLayout } from "./layout-context";
 import { Button } from "@/components/ui/button";
+import { useTranslation } from "@/lib/i18n/context";
 
 export function TopBar() {
     const { user } = useAuth();
+    const { t } = useTranslation();
     const { toggleMobileMenu } = useLayout();
     const envName = process.env.NEXT_PUBLIC_ENV_NAME;
 
@@ -24,9 +26,9 @@ export function TopBar() {
                 </Button>
                 <div className="flex items-center gap-2">
                     <h1 className="text-lg font-semibold text-slate-900 truncate max-w-[150px] sm:max-w-none">
-                        Clinical Decision Support
+                        {t.common.appName}
                     </h1>
-                    {envName && envName !== 'PROD' && (
+                    {envName && envName !== 'production' && (
                         <span className="rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-medium text-yellow-800 border border-yellow-200">
                             {envName}
                         </span>

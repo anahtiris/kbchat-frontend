@@ -31,7 +31,7 @@ describe('validateBoundaries', () => {
         expect(result.isValid).toBe(false);
         expect(result.errors).toContainEqual(expect.objectContaining({
             field: 'pageStart',
-            message: 'Page must be at least 1'
+            code: 'PAGE_MIN'
         }));
     });
 
@@ -40,7 +40,8 @@ describe('validateBoundaries', () => {
         expect(result.isValid).toBe(false);
         expect(result.errors).toContainEqual(expect.objectContaining({
             field: 'pageEnd',
-            message: 'Page cannot exceed 20'
+            code: 'PAGE_MAX',
+            params: { max: 20 }
         }));
     });
 
@@ -49,7 +50,7 @@ describe('validateBoundaries', () => {
         expect(result.isValid).toBe(false);
         expect(result.errors).toContainEqual(expect.objectContaining({
             field: 'pageStart',
-            message: 'Start page must be before end page'
+            code: 'INVALID_RANGE'
         }));
     });
 
@@ -65,7 +66,7 @@ describe('validateBoundaries', () => {
         ];
         const result = validateBoundaries(boundaries, 20);
         expect(result.isValid).toBe(false);
-        expect(result.errors.some(e => e.message.includes('Overlaps'))).toBe(true);
+        expect(result.errors.some(e => e.code === 'OVERLAP')).toBe(true);
     });
 
     it('should fail for overlapping ranges (subset)', () => {

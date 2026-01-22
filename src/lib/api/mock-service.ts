@@ -4,6 +4,11 @@ import { Document, ChatMessage } from "../types";
 let documents: Document[] = [
     {
         id: "1",
+        service_id: 1,
+        service_submodule: "Module 1",
+        blob_directory: "/docs/protocols.pdf",
+        page_from_inclusive: 1,
+        page_to_inclusive: 45,
         filename: "Clinic_ Protocols_v2.pdf",
         uploadedBy: "Admin User",
         uploadedAt: "2023-10-25T10:00:00Z",
@@ -13,6 +18,11 @@ let documents: Document[] = [
     },
     {
         id: "2",
+        service_id: 1,
+        service_submodule: "Module 2",
+        blob_directory: "/docs/drug_interactions.pdf",
+        page_from_inclusive: 1,
+        page_to_inclusive: 12,
         filename: "Drug_Interactions_2024.pdf",
         uploadedBy: "Dr. Smith",
         uploadedAt: "2023-11-01T14:30:00Z",
@@ -28,7 +38,7 @@ let chatHistory: ChatMessage[] = [
     {
         id: "m1",
         role: "assistant",
-        content: "Hello! I'm your clinical decision support assistant. How can I help you today?",
+        content: "Hello! I'm your Ondamed Assistant. How can I help you today with machine instructions or guidelines?",
         timestamp: new Date().toISOString(),
     }
 ];
@@ -42,12 +52,17 @@ export const mockApi = {
     uploadDocument: async (file: File): Promise<Document> => {
         await new Promise((resolve) => setTimeout(resolve, 1500));
         const newDoc: Document = {
-            id: Math.random().toString(36).substr(2, 9),
+            id: Math.random().toString(36).substring(2, 9),
+            service_id: 1,
+            service_submodule: "Upload",
+            blob_directory: `/uploads/${file.name}`,
+            page_from_inclusive: 1,
+            page_to_inclusive: 50,
             filename: file.name,
             uploadedBy: "Admin User", // Mock
             uploadedAt: new Date().toISOString(),
             size: `${(file.size / 1024 / 1024).toFixed(2)} MB`,
-            pageCount: Math.floor(Math.random() * 50) + 5,
+            pageCount: 50,
             boundaries: [],
         };
         documents = [newDoc, ...documents];
@@ -62,7 +77,7 @@ export const mockApi = {
     sendMessage: async (content: string): Promise<ReadableStream<string>> => {
         // Simulate streaming response
         const encoder = new TextEncoder();
-        const responseText = "This is a simulated response based on the clinical protocols. In a real application, this would be streamed from the RAG backend.";
+        const responseText = "This is a simulated response based on the Ondamed manuals. In a real application, this would be streamed from the RAG backend.";
 
         return new ReadableStream({
             async start(controller) {

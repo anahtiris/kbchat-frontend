@@ -15,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Clinic Decision Support",
-  description: "Internal tool for clinical decision support",
+  title: "Ondamed - Guidelines Assistant",
+  description: "Manuals and instructions for Ondamed treatment machine",
 };
 
 export default function RootLayout({

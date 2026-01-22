@@ -45,7 +45,7 @@ export default function LoginPage() {
                         disabled={isLoading}
                         onClick={() => handleLogin('doctor')}
                     >
-                        {isLoading ? "Signing in..." : t.login.signInButton}
+                        {isLoading ? t.common.signingIn : t.login.signInButton}
                     </Button>
 
                     <div className="mt-6 rounded-md bg-yellow-50 p-4 border border-yellow-100">

@@ -42,6 +42,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     );
 }
 
+
 export default function DashboardLayout({
     children,
 }: {

@@ -27,10 +27,6 @@ export default function DocumentsPage() {
 
     return (
         <div className="mx-auto max-w-5xl">
-            <div className="mb-8">
-                <h1 className="text-2xl font-bold tracking-tight text-slate-900">Document Management</h1>
-                <p className="text-slate-500">Configure RAG boundaries and manage uploaded files.</p>
-            </div>
             <DocumentList />
         </div>
     );
