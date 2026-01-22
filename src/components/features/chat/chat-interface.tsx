@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { Send, StopCircle, RefreshCw, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ChatMessage, Document } from "@/lib/types";
+import { ChatMessage, KnowledgeBaseService } from "@/lib/types";
 import { mockApi } from "@/lib/api/mock-service";
 import { MessageBubble } from "./message-bubble";
 import { ScopeSelector } from "./scope-selector";
@@ -15,13 +15,25 @@ export function ChatInterface() {
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [inputValue, setInputValue] = useState("");
     const [isStreaming, setIsStreaming] = useState(false);
-    const [documents, setDocuments] = useState<Document[]>([]);
-    const [selectedDocIds, setSelectedDocIds] = useState<string[]>([]);
+    const [services, setServices] = useState<KnowledgeBaseService[]>([]);
+    const [selectedServiceId, setSelectedServiceId] = useState<number | null>(null);
+    const [selectedSubmodule, setSelectedSubmodule] = useState<string | null>(null);
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        // Load available documents for scope
-        mockApi.getDocuments().then(setDocuments);
+        const loadServices = async () => {
+            try {
+                const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+                const response = await fetch(`${backendUrl}/api/admin/services`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setServices(data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch services:", error);
+            }
+        };
+        loadServices();
     }, []);
 
     const scrollToBottom = () => {
@@ -92,11 +104,15 @@ export function ChatInterface() {
             <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/50 p-4">
                 <div className="flex items-center gap-4">
                     <ScopeSelector
-                        documents={documents}
-                        selectedIds={selectedDocIds}
-                        onSelectionChange={setSelectedDocIds}
+                        services={services}
+                        selectedServiceId={selectedServiceId}
+                        selectedSubmodule={selectedSubmodule}
+                        onSelectionChange={(sid, sub) => {
+                            setSelectedServiceId(sid);
+                            setSelectedSubmodule(sub);
+                        }}
                     />
-                    {selectedDocIds.length > 0 && (
+                    {(selectedServiceId || selectedSubmodule) && (
                         <span className="text-xs text-green-600 font-medium flex items-center bg-green-50 px-2 py-1 rounded-full">
                             <span className="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5 animate-pulse"></span>
                             {t.chat.contextActive}

@@ -14,12 +14,17 @@ export interface RagBoundary {
 }
 
 export interface Document {
-    id: string;
+    id: string; // Internal UI ID (fallback)
+    document_id?: number; // Backend ID
     service_id: number;
+    service_name?: string;
     service_submodule: string;
     blob_directory: string;
     page_from_inclusive: number;
     page_to_inclusive: number;
+    page_to_skip?: number | null;
+    created_date?: string;
+    // UI derived fields
     filename: string;
     uploadedBy: string;
     uploadedAt: string; // ISO date
@@ -34,4 +39,10 @@ export interface ChatMessage {
     content: string;
     timestamp: string;
     citations?: string[]; // IDs of documents cited
+}
+
+export interface KnowledgeBaseService {
+    service_id: number;
+    service_name: string;
+    submodules: string[];
 }

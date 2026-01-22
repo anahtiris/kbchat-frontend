@@ -13,6 +13,8 @@ export const dictionary = {
             error: "Error",
             unknownError: "Unknown error",
             accessDenied: "Access Denied",
+            filters: "Filters",
+            clearFilters: "Clear Filters",
         },
         auth: {
             signIn: "Sign in with Azure Entra ID",
@@ -39,6 +41,8 @@ export const dictionary = {
         docs: {
             title: "Manuals & Protocols",
             description: "Manage Ondamed guidelines and instruction manuals available to the AI.",
+            tabManuals: "Manuals",
+            tabServices: "Knowledge Base Structure",
             noDocs: "No documents uploaded yet",
             uploadedBy: "Uploaded by",
             uploadedOn: "on",
@@ -61,6 +65,25 @@ export const dictionary = {
             permUpload: "You don't have permission to upload documents",
             permEdit: "You don't have permission to modify boundaries",
             noBoundaries: "No custom boundaries set (Entire document included)",
+            serviceName: "Service Name",
+            submodules: "Submodules",
+            addService: "Add Service",
+            editService: "Edit Service",
+            deleteService: "Delete Service",
+            servicePlaceholder: "e.g. ondamed",
+            submodulePlaceholder: "Add submodule then press Enter",
+            managementTitle: "Service & Submodule Management",
+            managementDesc: "Define the hierarchical structure of your knowledge base.",
+            filterService: "Filter by Service",
+            filterSubmodule: "Filter by Submodule",
+            registerManual: "Register New Manual",
+            selectService: "Select Service",
+            selectSubmodule: "Select Submodule",
+            fileUrl: "File URL / Path",
+            boundaries: "Manual Boundaries",
+            addManual: "Add Manual",
+            uploadFile: "Upload File",
+            chooseFile: "Choose File",
         },
         login: {
             title: "Ondamed Support System",
@@ -76,8 +99,11 @@ export const dictionary = {
         },
         selector: {
             placeholder: "Select manuals...",
+            servicePlaceholder: "Select Service",
+            submodulePlaceholder: "Select Submodule",
             selected: "manual(s) selected",
-            noDocs: "No manuals available"
+            noDocs: "No manuals available",
+            noServices: "No services available"
         },
         bubble: {
             you: "You",
@@ -109,6 +135,8 @@ export const dictionary = {
             error: "ข้อผิดพลาด",
             unknownError: "ข้อผิดพลาดที่ไม่รู้จัก",
             accessDenied: "ปฏิเสธการเข้าถึง",
+            filters: "กรอง",
+            clearFilters: "ล้างตัวกรอง",
         },
         auth: {
             signIn: "เข้าสู่ระบบด้วย Azure Entra ID",
@@ -135,6 +163,8 @@ export const dictionary = {
         docs: {
             title: "คู่มือและระเบียบการ",
             description: "จัดการคู่มือและระเบียบการ Ondamed สำหรับ AI",
+            tabManuals: "รายการคู่มือ",
+            tabServices: "โครงสร้างฐานความรู้",
             noDocs: "ยังไม่มีเอกสารอัปโหลด",
             uploadedBy: "อัปโหลดโดย",
             uploadedOn: "เมื่อ",
@@ -157,6 +187,25 @@ export const dictionary = {
             permUpload: "คุณไม่มีสิทธิ์อัปโหลดเอกสาร",
             permEdit: "คุณไม่มีสิทธิ์แก้ไขการตั้งค่า",
             noBoundaries: "ไม่มีการกำหนดขอบเขต (รวมทั้งเอกสาร)",
+            serviceName: "ชื่อบริการ",
+            submodules: "โมดูลย่อย",
+            addService: "เพิ่มบริการ",
+            editService: "แก้ไขบริการ",
+            deleteService: "ลบบริการ",
+            servicePlaceholder: "เช่น ondamed",
+            submodulePlaceholder: "ระบุโมดูลย่อยแล้วกด Enter",
+            managementTitle: "การจัดการบริการและโมดูลย่อย",
+            managementDesc: "กำหนดโครงสร้างลำดับชั้นของฐานความรู้ของคุณ",
+            filterService: "กรองตามบริการ",
+            filterSubmodule: "กรองตามโมดูลย่อย",
+            registerManual: "ลงทะเบียนคู่มือใหม่",
+            selectService: "เลือกบริการ",
+            selectSubmodule: "เลือกโมดูลย่อย",
+            fileUrl: "URL หรือที่อยู่ไฟล์",
+            boundaries: "ขอบเขตคู่มือ",
+            addManual: "เพิ่มคู่มือ",
+            uploadFile: "อัปโหลดไฟล์",
+            chooseFile: "เลือกไฟล์",
         },
         login: {
             title: "ระบบสนับสนุน Ondamed",
@@ -172,8 +221,11 @@ export const dictionary = {
         },
         selector: {
             placeholder: "เลือกคู่มือ...",
+            servicePlaceholder: "เลือกบริการ",
+            submodulePlaceholder: "เลือกโมดูลย่อย",
             selected: "คู่มือที่เลือก",
-            noDocs: "ไม่มีคู่มือ"
+            noDocs: "ไม่มีคู่มือ",
+            noServices: "ไม่มีบริการ"
         },
         bubble: {
             you: "คุณ",

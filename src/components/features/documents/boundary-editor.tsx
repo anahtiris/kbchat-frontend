@@ -149,10 +149,10 @@ export function BoundaryEditor({
 
             <div className="flex gap-2">
                 <Button variant="outline" size="sm" onClick={() => addBoundary("include")} className="bg-white border-slate-300 text-slate-700 hover:text-slate-900 hover:bg-slate-50">
-                    <Plus className="mr-1 h-3 w-3" /> {t.docs.include}
+                    <Plus className="mr-1 h-3 w-3 text-slate-600" /> {t.docs.include}
                 </Button>
                 <Button variant="outline" size="sm" onClick={() => addBoundary("exclude")} className="bg-white border-slate-300 text-slate-700 hover:text-slate-900 hover:bg-slate-50">
-                    <Plus className="mr-1 h-3 w-3" /> {t.docs.exclude}
+                    <Plus className="mr-1 h-3 w-3 text-slate-600" /> {t.docs.exclude}
                 </Button>
             </div>
 

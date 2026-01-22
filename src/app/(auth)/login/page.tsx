@@ -52,10 +52,10 @@ export default function LoginPage() {
                         <p className="text-xs font-medium text-yellow-800 mb-2">{t.login.modeLabel}</p>
                         <div className="grid grid-cols-3 gap-2">
                             <Button variant="outline" size="sm" onClick={() => handleLogin('admin')} disabled={isLoading} className="text-xs">
-                                <ShieldCheck className="mr-1 h-3 w-3" /> {t.login.roles.admin}
+                                <ShieldCheck className="mr-1 h-3 w-3 text-slate-600" /> {t.login.roles.admin}
                             </Button>
                             <Button variant="outline" size="sm" onClick={() => handleLogin('doctor')} disabled={isLoading} className="text-xs">
-                                <BadgePlus className="mr-1 h-3 w-3" /> {t.login.roles.doctor}
+                                <BadgePlus className="mr-1 h-3 w-3 text-slate-600" /> {t.login.roles.doctor}
                             </Button>
                             <Button variant="outline" size="sm" onClick={() => handleLogin('staff')} disabled={isLoading} className="text-xs">
                                 {t.login.roles.staff}
