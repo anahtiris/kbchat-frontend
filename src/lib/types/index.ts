@@ -1,4 +1,4 @@
-export type Role = "admin" | "doctor" | "staff";
+import { Role } from "../constants/auth";
 
 export interface User {
     id: string;

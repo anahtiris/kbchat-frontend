@@ -31,14 +31,14 @@ This system provides clinical guidelines and instructions for the usage of the *
     Create a `.env.local` file in the root directory:
     ```bash
     NEXT_PUBLIC_ENV_NAME=DEV
-    NEXT_PUBLIC_BACKEND_URL=http://localhost:5001
+    NEXT_PUBLIC_BACKEND_URL=http://localhost:4000
     ```
 
 3.  **Run Development Server**
     ```bash
     npm run dev
     ```
-    Open [http://localhost:3000](http://localhost:3000) in your browser. Ensure the Ondamed Python backend is running on port 5001 for full functionality.
+    Open [http://localhost:3000](http://localhost:3000) in your browser. Ensure the Ondamed Python backend is running on port 4000 for full functionality.
 
 ## Project Structure
 *   `/src/app`: Next.js App Router pages and layouts.

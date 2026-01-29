@@ -7,9 +7,11 @@ import { Sidebar } from "@/components/layout/sidebar";
 import { TopBar } from "@/components/layout/top-bar";
 import { Loader2 } from "lucide-react";
 import { LayoutProvider } from "@/components/layout/layout-context";
+import { useTranslation } from "@/lib/i18n/context";
 
 function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     const { user, isLoading } = useAuth();
+    const { t } = useTranslation();
     const router = useRouter();
 
     useEffect(() => {
@@ -20,9 +22,9 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
 
     if (isLoading) {
         return (
-            <div className="flex h-screen w-full items-center justify-center bg-slate-50">
+            <div className="flex h-screen w-full flex-col items-center justify-center bg-slate-50 gap-3">
                 <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
-                <span className="ml-2 font-medium text-slate-600">Loading ClinicAI...</span>
+                <span className="font-medium text-slate-500 animate-pulse">{t.common.loading}</span>
             </div>
         );
     }

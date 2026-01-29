@@ -11,6 +11,7 @@ import { useAuth } from "@/components/features/auth/auth-context";
 import { Tooltip } from "@/components/ui/tooltip";
 import { useTranslation } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
+import { ROLES } from "@/lib/constants/auth";
 
 export function DocumentList() {
     const { user } = useAuth();
@@ -32,7 +33,7 @@ export function DocumentList() {
 
     const loadServices = async () => {
         try {
-            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
             const response = await fetch(`${backendUrl}/api/admin/services`);
             if (response.ok) {
                 const data = await response.json();
@@ -46,7 +47,7 @@ export function DocumentList() {
     const loadDocs = async () => {
         setIsLoading(true);
         try {
-            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
             console.log("Fetching documents from:", `${backendUrl}/api/admin/documents`);
             const response = await fetch(`${backendUrl}/api/admin/documents`, {
                 method: 'GET',
@@ -96,7 +97,7 @@ export function DocumentList() {
     };
 
 
-    const canEdit = user?.role === "admin";
+    const canEdit = user?.role === ROLES.ADMIN;
 
     const filteredDocs = documents.filter(doc => {
         const matchesService = serviceFilter === "all" || doc.service_name === serviceFilter;

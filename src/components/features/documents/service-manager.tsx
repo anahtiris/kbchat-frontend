@@ -19,7 +19,7 @@ export function ServiceManager() {
     const [editingSubmodules, setEditingSubmodules] = useState<string[]>([]);
     const [newSubmodule, setNewSubmodule] = useState("");
 
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
 
     const loadServices = async () => {
         setIsLoading(true);

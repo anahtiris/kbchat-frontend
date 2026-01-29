@@ -8,6 +8,7 @@ import { useTranslation } from "@/lib/i18n/context";
 import { useLayout } from "@/components/layout/layout-context";
 import { LayoutDashboard, MessageSquare, FileText, Settings, LogOut, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { ROLES } from "@/lib/constants/auth";
 
 export function Sidebar() {
     const pathname = usePathname();
@@ -22,19 +23,19 @@ export function Sidebar() {
             name: t.nav.chat,
             href: "/dashboard",
             icon: MessageSquare,
-            role: ["admin", "doctor", "staff"]
+            role: [ROLES.ADMIN, ROLES.VIEWER, ROLES.STAFF]
         },
         {
             name: t.nav.documents,
             href: "/documents",
             icon: FileText,
-            role: ["admin"]
+            role: [ROLES.ADMIN]
         },
         {
             name: t.nav.settings,
             href: "/settings",
             icon: Settings,
-            role: ["admin"]
+            role: [ROLES.ADMIN]
         }
     ];
 
@@ -70,7 +71,10 @@ export function Sidebar() {
 
                 <div className="flex-1 space-y-1 px-3 py-4">
                     {links.map((link) => {
-                        if (!link.role.includes(user.role)) return null;
+                        const hasPermission = link.role.includes(user.role) ||
+                            user.roles?.some(r => link.role.includes(r as any));
+
+                        if (!hasPermission) return null;
 
                         const isActive = pathname === link.href;
 
@@ -93,12 +97,18 @@ export function Sidebar() {
 
                 <div className="border-t border-slate-800 p-4">
                     <div className="flex items-center gap-3 rounded-lg bg-slate-800/50 p-3 mb-2">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-xs font-bold">
-                            {user.name.charAt(0)}
+                        <div className="flex h-9 w-9 items-center justify-center rounded-full bg-blue-600 text-xs font-bold ring-2 ring-slate-700">
+                            {user.name
+                                ? user.name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2)
+                                : user.email?.charAt(0).toUpperCase() || "?"}
                         </div>
-                        <div className="overflow-hidden">
-                            <p className="truncate text-sm font-medium text-white">{user.name}</p>
-                            <p className="truncate text-xs text-slate-400 capitalize">{user.role}</p>
+                        <div className="flex flex-1 flex-col overflow-hidden text-left">
+                            <p className="truncate text-sm font-semibold text-white leading-none mb-1">
+                                {user.name}
+                            </p>
+                            <p className="truncate text-[10px] font-medium text-slate-400 uppercase tracking-tight">
+                                {Array.isArray(user.roles) ? user.roles.join(" • ") : (user.role || "User")}
+                            </p>
                         </div>
                     </div>
                     <button

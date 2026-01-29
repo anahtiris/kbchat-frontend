@@ -23,7 +23,7 @@ export function ChatInterface() {
     useEffect(() => {
         const loadServices = async () => {
             try {
-                const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+                const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
                 const response = await fetch(`${backendUrl}/api/admin/services`);
                 if (response.ok) {
                     const data = await response.json();

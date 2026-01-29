@@ -6,6 +6,7 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/com
 import { Button } from "@/components/ui/button";
 import { Activity, CheckCircle, XCircle } from "lucide-react";
 import { useAuth } from "@/components/features/auth/auth-context";
+import { ROLES } from "@/lib/constants/auth";
 
 export default function SettingsPage() {
     const { t } = useTranslation();
@@ -15,7 +16,7 @@ export default function SettingsPage() {
     const [backendMessage, setBackendMessage] = useState<string>("");
     const [dbMessage, setDbMessage] = useState<string>("");
 
-    if (user?.role !== "admin") {
+    if (user?.role !== ROLES.ADMIN) {
         return <div className="p-8 text-center text-slate-500">{t.common.accessDenied}</div>;
     }
 
@@ -28,7 +29,7 @@ export default function SettingsPage() {
         setMessage("");
 
         try {
-            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
             const response = await fetch(`${backendUrl}${endpoint}`, {
                 method: 'GET',
                 headers: {
@@ -65,7 +66,7 @@ export default function SettingsPage() {
                             {t.settings.backendTest}
                         </CardTitle>
                         <CardDescription>
-                            {process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001"}/api/test-backend
+                            {process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000"}/api/test-backend
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
@@ -101,7 +102,7 @@ export default function SettingsPage() {
                             {t.settings.dbTest}
                         </CardTitle>
                         <CardDescription>
-                            {process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001"}/api/test-db
+                            {process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000"}/api/test-db
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">

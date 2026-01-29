@@ -8,6 +8,7 @@ import { ServiceManager } from "@/components/features/documents/service-manager"
 import { Loader2, FileText, Database } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
+import { ROLES } from "@/lib/constants/auth";
 
 export default function DocumentsPage() {
     const { user, isLoading } = useAuth();
@@ -16,13 +17,13 @@ export default function DocumentsPage() {
     const [activeTab, setActiveTab] = useState<"manuals" | "services">("services");
 
     useEffect(() => {
-        if (!isLoading && user && user.role !== "admin") {
+        if (!isLoading && user && user.role !== ROLES.ADMIN) {
             router.push("/dashboard");
         }
     }, [user, isLoading, router]);
 
     if (isLoading) return null;
-    if (!user || user.role !== "admin") {
+    if (!user || user.role !== ROLES.ADMIN) {
         return (
             <div className="flex h-full items-center justify-center text-slate-400">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Verifying permissions...

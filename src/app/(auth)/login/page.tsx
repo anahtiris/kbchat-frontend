@@ -5,12 +5,26 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { BadgePlus, LayoutDashboard, ShieldCheck } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/context";
+import { ROLES } from "@/lib/constants/auth";
 
 export default function LoginPage() {
     const { login, isLoading } = useAuth();
     const { t } = useTranslation();
 
-    const handleLogin = async (role: Role) => {
+    const isDev = process.env.NEXT_PUBLIC_ENV_NAME === "DEV";
+
+    const handleAzureLogin = () => {
+        const clientId = process.env.NEXT_PUBLIC_AZURE_AD_CLIENT_ID;
+        const tenantId = process.env.NEXT_PUBLIC_AZURE_AD_TENANT_ID;
+        const redirectUri = process.env.NEXT_PUBLIC_AZURE_AD_REDIRECT_URI || `${window.location.origin}/auth/callback`;
+        const scope = encodeURIComponent("openid profile email");
+        const state = Math.random().toString(36).substring(7);
+
+        const azureUrl = `https://login.microsoftonline.com/${tenantId}/oauth2/v2.0/authorize?client_id=${clientId}&response_type=code&redirect_uri=${encodeURIComponent(redirectUri)}&response_mode=query&scope=${scope}&state=${state}`;
+        window.location.href = azureUrl;
+    };
+
+    const handleMockLogin = async (role: Role) => {
         await login(role);
     };
 
@@ -41,27 +55,61 @@ export default function LoginPage() {
                     </div>
 
                     <Button
-                        className="w-full bg-[#2F2F2F] hover:bg-[#1a1a1a] text-white"
+                        className="w-full bg-[#0078d4] hover:bg-[#005a9e] text-white flex items-center justify-center gap-3 py-6"
                         disabled={isLoading}
-                        onClick={() => handleLogin('doctor')}
+                        onClick={handleAzureLogin}
                     >
-                        {isLoading ? t.common.signingIn : t.login.signInButton}
+                        <svg className="h-5 w-5" viewBox="0 0 23 23">
+                            <path fill="#f3f3f3" d="M0 0h11.5v11.5H0z" /><path fill="#f3f3f3" d="M11.5 0H23v11.5H11.5z" /><path fill="#f3f3f3" d="M0 11.5h11.5V23H0z" /><path fill="#f3f3f3" d="M11.5 11.5H23V23H11.5z" />
+                        </svg>
+                        {t.login.signInButton}
                     </Button>
 
-                    <div className="mt-6 rounded-md bg-yellow-50 p-4 border border-yellow-100">
-                        <p className="text-xs font-medium text-yellow-800 mb-2">{t.login.modeLabel}</p>
-                        <div className="grid grid-cols-3 gap-2">
-                            <Button variant="outline" size="sm" onClick={() => handleLogin('admin')} disabled={isLoading} className="text-xs">
-                                <ShieldCheck className="mr-1 h-3 w-3 text-slate-600" /> {t.login.roles.admin}
-                            </Button>
-                            <Button variant="outline" size="sm" onClick={() => handleLogin('doctor')} disabled={isLoading} className="text-xs">
-                                <BadgePlus className="mr-1 h-3 w-3 text-slate-600" /> {t.login.roles.doctor}
-                            </Button>
-                            <Button variant="outline" size="sm" onClick={() => handleLogin('staff')} disabled={isLoading} className="text-xs">
-                                {t.login.roles.staff}
-                            </Button>
+                    {isDev && (
+                        <div className="mt-6 space-y-3 pt-4 border-t border-dashed border-slate-200">
+                            <div className="flex items-center gap-2">
+                                <span className="h-px flex-1 bg-slate-100" />
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{t.login.modeLabel}</span>
+                                <span className="h-px flex-1 bg-slate-100" />
+                            </div>
+
+                            <div className="grid grid-cols-3 gap-2">
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handleMockLogin(ROLES.ADMIN)}
+                                    disabled={isLoading}
+                                    className="text-[10px] h-8 border-slate-200 hover:bg-slate-50"
+                                >
+                                    <ShieldCheck className="mr-1 h-3 w-3 text-slate-500" /> {t.login.roles.admin}
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handleMockLogin(ROLES.VIEWER)}
+                                    disabled={isLoading}
+                                    className="text-[10px] h-8 border-slate-200 hover:bg-slate-50"
+                                >
+                                    <BadgePlus className="mr-1 h-3 w-3 text-slate-500" /> {t.login.roles.doctor}
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={() => handleMockLogin(ROLES.STAFF)}
+                                    disabled={isLoading}
+                                    className="text-[10px] h-8 border-slate-200 hover:bg-slate-50"
+                                >
+                                    {t.login.roles.staff}
+                                </Button>
+                            </div>
                         </div>
-                    </div>
+                    )}
+
+                    {isLoading && (
+                        <p className="text-center text-xs text-blue-600 animate-pulse font-medium">
+                            {t.common.signingIn}
+                        </p>
+                    )}
                 </CardContent>
                 <CardFooter className="justify-center border-t border-slate-100 bg-slate-50/50 py-4">
                     <p className="text-xs text-slate-400">

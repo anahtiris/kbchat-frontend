@@ -26,7 +26,7 @@ export function DocumentRegistration({ services, onSave, onCancel }: Registratio
     const [pageFrom, setPageFrom] = useState<number>(1);
     const [pageTo, setPageTo] = useState<number>(1);
 
-    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:5001";
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
 
     const selectedService = services.find(s => s.service_id === serviceId);
 
