@@ -12,10 +12,10 @@ This system provides clinical guidelines and instructions for the usage of the *
 *   **Communication**: Fetch API with RAG Backend integration
 
 ## Features
-*   **Authentication**: Mock Azure Entra ID integration with Role-Based Access Control (Admin, Doctor, Staff).
+*   **Authentication**: Secure Azure Entra ID integration with Role-Based Access Control (Admin, Viewer).
 *   **Ondamed Chat Assistant**: Streaming chat interface that references specific Ondamed manuals for accurate technical guidance.
-*   **Manuals & Protocols**: Document management system for Ondamed guidelines.
-*   **RAG Configuration**: Strict real-time validation for PDF page boundaries (overlaps, out-of-bounds) to refine AI context.
+*   **Manuals & Protocols**: Comprehensive document management system for Ondamed guidelines with real-time backend synchronization.
+*   **RAG Configuration**: Strict validation for PDF page boundaries (overlaps, out-of-bounds) directly synced with the vector store.
 *   **System Health**: Integrated backend and database connection testers in the Settings module.
 *   **Internationalization (i18n)**: Comprehensive English and Thai support for all UI elements and error messages.
 *   **Responsive Design**: Mobile-optimized layout with adaptive drawers and environment-aware badges.
@@ -28,10 +28,9 @@ This system provides clinical guidelines and instructions for the usage of the *
     ```
 
 2.  **Environment Setup**
-    Create a `.env.local` file in the root directory:
+    Copy `.env.example` to `.env` and fill in your Azure AD and Backend credentials:
     ```bash
-    NEXT_PUBLIC_ENV_NAME=DEV
-    NEXT_PUBLIC_BACKEND_URL=http://localhost:4000
+    cp .env.example .env
     ```
 
 3.  **Run Development Server**

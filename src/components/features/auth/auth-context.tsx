@@ -87,15 +87,34 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }, [backendUrl]);
 
     useEffect(() => {
-        // Fallback to localStorage check for development persistency
-        const stored = localStorage.getItem("mock_user");
-        if (stored) {
-            setUser(JSON.parse(stored));
-            setIsLoading(false);
-            return;
-        }
+        const initAuth = async () => {
+            // 1. Try to refresh real session from BFF
+            await refreshSession();
 
-        refreshSession();
+            // 2. Optimization: If we have a real session, clear mock data to avoid confusion
+            // We use state here, so we need to check the updated state or just check if it was successful
+        };
+
+        // Fallback check for dev persistency
+        const syncMockData = () => {
+            const stored = localStorage.getItem("mock_user");
+            if (stored && !user) {
+                setUser(JSON.parse(stored));
+                setIsLoading(false);
+            }
+        };
+
+        // We use a small delay or check the result of refreshSession
+        // But better is to just integrate it into refreshSession's finally or similar
+        refreshSession().then(() => {
+            // If refreshSession failed (user is still null), try mock
+            const stored = localStorage.getItem("mock_user");
+            if (stored) {
+                // Only use mock if we are still loading/null
+                setUser((prev) => prev || JSON.parse(stored));
+            }
+            setIsLoading(false);
+        });
     }, [refreshSession]);
 
     const logout = async () => {

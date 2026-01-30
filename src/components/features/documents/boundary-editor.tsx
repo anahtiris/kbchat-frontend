@@ -5,7 +5,6 @@ import { Plus, Trash2, AlertTriangle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Document, RagBoundary } from "@/lib/types";
-import { mockApi } from "@/lib/api/mock-service";
 import { cn } from "@/lib/utils";
 import { validateBoundaries } from "@/lib/validation/boundaries";
 import { useTranslation } from "@/lib/i18n/context";
@@ -22,6 +21,7 @@ export function BoundaryEditor({
     const { t } = useTranslation();
     const [boundaries, setBoundaries] = useState<RagBoundary[]>(document.boundaries || []);
     const [isSaving, setIsSaving] = useState(false);
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
 
     const { isValid, errors } = useMemo(() =>
         validateBoundaries(boundaries, document.pageCount),
@@ -47,9 +47,26 @@ export function BoundaryEditor({
     const handleSave = async () => {
         if (!isValid) return;
         setIsSaving(true);
-        await mockApi.updateDocumentBoundaries(document.id, boundaries);
-        setIsSaving(false);
-        onSave();
+        try {
+            const response = await fetch(`${backendUrl}/api/admin/documents/boundaries`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    document_id: document.document_id,
+                    boundaries: boundaries
+                })
+            });
+
+            if (response.ok) {
+                onSave();
+            } else {
+                console.error("Failed to save boundaries");
+            }
+        } catch (error) {
+            console.error("Error saving boundaries:", error);
+        } finally {
+            setIsSaving(false);
+        }
     };
 
     const translateError = (err: any) => {

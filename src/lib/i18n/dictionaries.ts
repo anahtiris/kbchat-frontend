@@ -93,8 +93,7 @@ export const dictionary = {
             copyright: "Ondamed Technical Support",
             roles: {
                 admin: "Admin",
-                doctor: "Doctor",
-                staff: "Staff"
+                viewer: "Viewer",
             }
         },
         selector: {
@@ -215,8 +214,7 @@ export const dictionary = {
             copyright: "Ondamed Technical Support",
             roles: {
                 admin: "ผู้ดูแลระบบ",
-                doctor: "แพทย์",
-                staff: "เจ้าหน้าที่"
+                viewer: "ผู้ใช้ทั่วไป",
             }
         },
         selector: {

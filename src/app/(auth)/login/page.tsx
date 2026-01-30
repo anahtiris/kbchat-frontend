@@ -73,7 +73,7 @@ export default function LoginPage() {
                                 <span className="h-px flex-1 bg-slate-100" />
                             </div>
 
-                            <div className="grid grid-cols-3 gap-2">
+                            <div className="grid grid-cols-2 gap-2">
                                 <Button
                                     variant="outline"
                                     size="sm"
@@ -90,16 +90,7 @@ export default function LoginPage() {
                                     disabled={isLoading}
                                     className="text-[10px] h-8 border-slate-200 hover:bg-slate-50"
                                 >
-                                    <BadgePlus className="mr-1 h-3 w-3 text-slate-500" /> {t.login.roles.doctor}
-                                </Button>
-                                <Button
-                                    variant="outline"
-                                    size="sm"
-                                    onClick={() => handleMockLogin(ROLES.STAFF)}
-                                    disabled={isLoading}
-                                    className="text-[10px] h-8 border-slate-200 hover:bg-slate-50"
-                                >
-                                    {t.login.roles.staff}
+                                    <BadgePlus className="mr-1 h-3 w-3 text-slate-500" /> {t.login.roles.viewer}
                                 </Button>
                             </div>
                         </div>

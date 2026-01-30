@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { Upload, FileText, Settings, Plus, Search, Filter as FilterIcon, ChevronRight, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { mockApi } from "@/lib/api/mock-service";
 import { Document, KnowledgeBaseService } from "@/lib/types";
 import { BoundaryEditor } from "./boundary-editor";
 import { DocumentRegistration } from "./document-registration";
