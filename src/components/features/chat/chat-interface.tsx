@@ -82,31 +82,68 @@ export function ChatInterface() {
                 {
                     id: assistantMsgId,
                     role: "assistant",
-                    content: t.chat.processing,
+                    content: "",
                     timestamp: new Date().toISOString(),
+                    sources: [],
                 },
             ]);
 
-            // Send message to backend chat API with context
-            const result = await chatService.sendChatMessage(
+            let answer = "";
+            let sources: any[] = [];
+            let model = "";
+            let statusText = "";
+
+            await chatService.sendChatMessage(
                 userMsg.content,
                 serviceName,
                 selectedSubmodule,
                 user.name,
-                aiModel
-            );
-
-            // Update the message with the actual answer and sources
-            setMessages((prev) =>
-                prev.map(m =>
-                    m.id === assistantMsgId
-                        ? {
-                            ...m,
-                            content: result.answer,
-                            sources: result.sources,
-                        }
-                        : m
-                )
+                aiModel,
+                {
+                    stream: true,
+                    onToken: (token) => {
+                        answer += token;
+                        setMessages((prev) =>
+                            prev.map(m =>
+                                m.id === assistantMsgId
+                                    ? { ...m, content: answer }
+                                    : m
+                            )
+                        );
+                    },
+                    onStatus: (message) => {
+                        statusText = message;
+                        setMessages((prev) =>
+                            prev.map(m =>
+                                m.id === assistantMsgId
+                                    ? { ...m, content: answer ? answer + "\n" + message : message}
+                                    : m
+                            )
+                        );
+                    },
+                    onDone: (src, mdl) => {
+                        sources = src;
+                        model = mdl;
+                        setMessages((prev) =>
+                            prev.map(m =>
+                                m.id === assistantMsgId
+                                    ? { ...m, content: answer, sources }
+                                    : m
+                            )
+                        );
+                    },
+                    onError: (msg) => {
+                        setMessages((prev) => [
+                            ...prev,
+                            {
+                                id: (Date.now() + 2).toString(),
+                                role: "assistant",
+                                content: `${t.chat.error}: ${msg}`,
+                                timestamp: new Date().toISOString(),
+                            },
+                        ]);
+                    },
+                }
             );
         } catch (error) {
             console.error("Chat error:", error);
@@ -153,7 +190,12 @@ export function ChatInterface() {
             <div className="flex-1 overflow-y-auto">
                 <div className="flex flex-col">
                     {messages.map((msg) => (
-                        <MessageBubble key={msg.id} message={msg} />
+                        <MessageBubble
+                            key={msg.id}
+                            message={msg}
+                            selectedServiceId={selectedServiceId}
+                            selectedSubmodule={selectedSubmodule}
+                        />
                     ))}
                     <div ref={messagesEndRef} />
                 </div>

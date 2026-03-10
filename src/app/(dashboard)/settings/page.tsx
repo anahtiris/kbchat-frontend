@@ -53,8 +53,108 @@ export default function SettingsPage() {
         }
     };
 
+    // System Prompt Editor state
+    const [prompt, setPrompt] = useState<string>("");
+    const [promptLoading, setPromptLoading] = useState<boolean>(false);
+    const [promptSaving, setPromptSaving] = useState<boolean>(false);
+    const [promptStatus, setPromptStatus] = useState<"idle" | "success" | "error">("idle");
+    const [promptMessage, setPromptMessage] = useState<string>("");
+
+    // Fetch current prompt
+    const fetchPrompt = async () => {
+        setPromptLoading(true);
+        setPromptStatus("idle");
+        setPromptMessage("");
+        try {
+            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+            const res = await fetch(`${backendUrl}/api/admin/system-prompt`, { method: "GET" });
+            if (res.ok) {
+                const data = await res.json();
+                setPrompt(data.prompt || "");
+            } else {
+                throw new Error(`Status: ${res.status}`);
+            }
+        } catch (err) {
+            setPromptStatus("error");
+            setPromptMessage(err instanceof Error ? err.message : "Unknown error");
+        } finally {
+            setPromptLoading(false);
+        }
+    };
+
+    // Save prompt
+    const savePrompt = async () => {
+        setPromptSaving(true);
+        setPromptStatus("idle");
+        setPromptMessage("");
+        try {
+            const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
+            const res = await fetch(`${backendUrl}/api/admin/system-prompt`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ prompt }),
+            });
+            if (res.ok) {
+                setPromptStatus("success");
+                setPromptMessage("Prompt updated successfully.");
+            } else {
+                throw new Error(`Status: ${res.status}`);
+            }
+        } catch (err) {
+            setPromptStatus("error");
+            setPromptMessage(err instanceof Error ? err.message : "Unknown error");
+        } finally {
+            setPromptSaving(false);
+        }
+    };
+
+    // Fetch prompt on mount
+    useState(() => { fetchPrompt(); }, []);
+
     return (
         <div className="space-y-6">
+                        {/* System Prompt Editor */}
+                        <Card>
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <Settings2 className="h-5 w-5 text-slate-500" />
+                                    {t.settings.systemPromptTitle}
+                                </CardTitle>
+                                <CardDescription>
+                                    {t.settings.systemPromptDesc}
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <textarea
+                                    className="w-full min-h-[120px] border border-slate-300 rounded p-2 text-sm"
+                                    value={prompt}
+                                    onChange={e => setPrompt(e.target.value)}
+                                    disabled={promptLoading || promptSaving}
+                                    placeholder={t.settings.systemPromptPlaceholder}
+                                />
+                                <div className="flex gap-2">
+                                    <Button
+                                        onClick={savePrompt}
+                                        disabled={promptSaving || promptLoading}
+                                    >
+                                        {promptSaving ? t.settings.systemPromptSaving : t.settings.systemPromptSave}
+                                    </Button>
+                                    <Button
+                                        variant="outline"
+                                        onClick={fetchPrompt}
+                                        disabled={promptLoading || promptSaving}
+                                    >
+                                        {promptLoading ? t.settings.systemPromptLoading : t.settings.systemPromptReload}
+                                    </Button>
+                                </div>
+                                {promptStatus === "success" && (
+                                    <div className="text-green-600 text-sm">{t.settings.systemPromptSuccess}</div>
+                                )}
+                                {promptStatus === "error" && (
+                                    <div className="text-red-600 text-sm">{t.settings.systemPromptError}</div>
+                                )}
+                            </CardContent>
+                        </Card>
             <div>
                 <h2 className="text-lg font-semibold text-slate-900">{t.settings.title}</h2>
                 <p className="text-sm text-slate-500">{t.settings.description}</p>
