@@ -33,6 +33,9 @@ export const dictionary = {
             noMessages: "No messages yet",
             disclaimer: "AI responses can be inaccurate. Always verify with official Ondamed manuals.",
             clearChat: "Clear Chat",
+            processing: "⏳ Processing your question...",
+            error: "Error",
+            failedToSend: "Failed to send message",
         },
         dashboard: {
             title: "Ondamed Assistant",
@@ -107,7 +110,8 @@ export const dictionary = {
         bubble: {
             you: "You",
             assistant: "Ondamed Assistant",
-            ref: "Ref"
+            ref: "Ref",
+            sources: "Sources"
         },
         settings: {
             title: "Settings",
@@ -118,6 +122,16 @@ export const dictionary = {
             testing: "Testing...",
             success: "Connection Successful",
             failure: "Connection Failed",
+            chatSettings: "Chat Settings",
+            chatSettingsDesc: "Configure chat behavior and AI model preferences",
+            aiModel: "AI Model",
+            ollama: "Ollama",
+            ollamaLocal: "(Local/Dev)",
+            gemini: "Google Gemini",
+            ollamaDescription: "Using local Ollama instance for chat processing",
+            geminiDescription: "Using Google Gemini API for chat processing",
+            relevanceThreshold: "Source Relevance Threshold",
+            relevanceDescription: "Only sources with relevance above this threshold will be displayed. Currently showing sources with {percentage}% or higher relevance.",
         }
     },
     th: {
@@ -154,6 +168,9 @@ export const dictionary = {
             noMessages: "ยังไม่มีข้อความ",
             disclaimer: "คำตอบจาก AI อาจคลาดเคลื่อน โปรดตรวจสอบกับคู่มือ Ondamed อย่างเป็นทางการเสมอ",
             clearChat: "ล้างแชท",
+            processing: "⏳ กำลังประมวลผลคำถามของคุณ...",
+            error: "ข้อผิดพลาด",
+            failedToSend: "ส่งข้อความล้มเหลว",
         },
         dashboard: {
             title: "ผู้ช่วย Ondamed",
@@ -228,7 +245,8 @@ export const dictionary = {
         bubble: {
             you: "คุณ",
             assistant: "ผู้ช่วย Ondamed",
-            ref: "อ้างอิง"
+            ref: "อ้างอิง",
+            sources: "แหล่งอ้างอิง"
         },
         settings: {
             title: "ตั้งค่า",
@@ -239,6 +257,16 @@ export const dictionary = {
             testing: "กำลังทดสอบ...",
             success: "เชื่อมต่อสำเร็จ",
             failure: "การเชื่อมต่อล้มเหลว",
+            chatSettings: "ตั้งค่าแชท",
+            chatSettingsDesc: "ตั้งค่าพฤติกรรมแชทและการตั้งค่ารูปแบบ AI",
+            aiModel: "รูปแบบ AI",
+            ollama: "Ollama",
+            ollamaLocal: "(ระบบเฉพาะ/พัฒนา)",
+            gemini: "Google Gemini",
+            ollamaDescription: "ใช้อินสแตนซ์ Ollama ในเครื่องสำหรับประมวลผลแชท",
+            geminiDescription: "ใช้ Google Gemini API สำหรับประมวลผลแชท",
+            relevanceThreshold: "เกณฑ์ความเกี่ยวข้องของแหล่งอ้างอิง",
+            relevanceDescription: "จะแสดงเฉพาะแหล่งอ้างอิงที่มีความเกี่ยวข้องเหนือเกณฑ์นี้เท่านั้น ปัจจุบันแสดงแหล่งอ้างอิงที่มีความเกี่ยวข้อง {percentage}% ขึ้นไป",
         }
     }
 };

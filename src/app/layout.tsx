@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AuthProvider } from "@/components/features/auth/auth-context";
+import { ChatSettingsProvider } from "@/lib/contexts/chat-settings-context";
 import { LanguageProvider } from "@/lib/i18n/context";
 import "./globals.css";
 
@@ -31,7 +32,9 @@ export default function RootLayout({
       >
         <LanguageProvider>
           <AuthProvider>
-            {children}
+            <ChatSettingsProvider>
+              {children}
+            </ChatSettingsProvider>
           </AuthProvider>
         </LanguageProvider>
       </body>

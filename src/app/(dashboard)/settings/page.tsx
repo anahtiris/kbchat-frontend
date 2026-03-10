@@ -4,13 +4,15 @@ import { useState } from "react";
 import { useTranslation } from "@/lib/i18n/context";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Activity, CheckCircle, XCircle } from "lucide-react";
+import { Activity, CheckCircle, XCircle, Settings2 } from "lucide-react";
 import { useAuth } from "@/components/features/auth/auth-context";
 import { ROLES } from "@/lib/constants/auth";
+import { useChatSettings } from "@/lib/contexts/chat-settings-context";
 
 export default function SettingsPage() {
     const { t } = useTranslation();
     const { user } = useAuth();
+    const { aiModel, setAiModel, relevanceThreshold, setRelevanceThreshold } = useChatSettings();
     const [backendStatus, setBackendStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [dbStatus, setDbStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [backendMessage, setBackendMessage] = useState<string>("");
@@ -56,6 +58,83 @@ export default function SettingsPage() {
             <div>
                 <h2 className="text-lg font-semibold text-slate-900">{t.settings.title}</h2>
                 <p className="text-sm text-slate-500">{t.settings.description}</p>
+            </div>
+
+            {/* Chat Settings Section */}
+            <div className="grid gap-6">
+                <Card>
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Settings2 className="h-5 w-5 text-slate-500" />
+                            {t.settings.chatSettings}
+                        </CardTitle>
+                        <CardDescription>
+                            {t.settings.chatSettingsDesc}
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        {/* AI Model Selection */}
+                        <div className="space-y-3">
+                            <label className="text-sm font-medium text-slate-900">
+                                {t.settings.aiModel}
+                            </label>
+                            <div className="space-y-2">
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="radio"
+                                        id="model-ollama"
+                                        name="ai-model"
+                                        value="ollama"
+                                        checked={aiModel === "ollama"}
+                                        onChange={(e) => setAiModel(e.target.value as "ollama" | "gemini")}
+                                        className="h-4 w-4 cursor-pointer accent-blue-600"
+                                    />
+                                    <label htmlFor="model-ollama" className="text-sm text-slate-700 cursor-pointer flex items-center gap-2">
+                                        {t.settings.ollama} <span className="text-xs text-green-600 font-medium">{t.settings.ollamaLocal}</span>
+                                    </label>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <input
+                                        type="radio"
+                                        id="model-gemini"
+                                        name="ai-model"
+                                        value="gemini"
+                                        checked={aiModel === "gemini"}
+                                        onChange={(e) => setAiModel(e.target.value as "ollama" | "gemini")}
+                                        className="h-4 w-4 cursor-pointer accent-blue-600"
+                                    />
+                                    <label htmlFor="model-gemini" className="text-sm text-slate-700 cursor-pointer">
+                                        {t.settings.gemini}
+                                    </label>
+                                </div>
+                            </div>
+                            <p className="text-xs text-slate-500 mt-2">
+                                {aiModel === "ollama"
+                                    ? t.settings.ollamaDescription
+                                    : t.settings.geminiDescription}
+                            </p>
+                        </div>
+
+                        {/* Relevance Threshold */}
+                        <div className="space-y-3 border-t border-slate-200 pt-6">
+                            <label className="text-sm font-medium text-slate-900">
+                                {t.settings.relevanceThreshold}: {(relevanceThreshold * 100).toFixed(0)}%
+                            </label>
+                            <input
+                                type="range"
+                                min="0"
+                                max="1"
+                                step="0.05"
+                                value={relevanceThreshold}
+                                onChange={(e) => setRelevanceThreshold(parseFloat(e.target.value))}
+                                className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-blue-600"
+                            />
+                            <p className="text-xs text-slate-500">
+                                {t.settings.relevanceDescription.replace("{percentage}", (relevanceThreshold * 100).toFixed(0))}
+                            </p>
+                        </div>
+                    </CardContent>
+                </Card>
             </div>
 
             <div className="grid gap-6 md:grid-cols-2">

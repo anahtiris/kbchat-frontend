@@ -5,13 +5,17 @@ import { Send, StopCircle, RefreshCw, MessageSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ChatMessage, KnowledgeBaseService } from "@/lib/types";
-import { mockApi } from "@/lib/api/mock-service";
+import { chatService } from "@/lib/api/chat-service";
 import { MessageBubble } from "./message-bubble";
 import { ScopeSelector } from "./scope-selector";
 import { useTranslation } from "@/lib/i18n/context";
+import { useAuth } from "../auth/auth-context";
+import { useChatSettings } from "@/lib/contexts/chat-settings-context";
 
 export function ChatInterface() {
     const { t } = useTranslation();
+    const { user } = useAuth();
+    const { aiModel } = useChatSettings();
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [inputValue, setInputValue] = useState("");
     const [isStreaming, setIsStreaming] = useState(false);
@@ -46,7 +50,13 @@ export function ChatInterface() {
 
     const handleSendMessage = async (e?: React.FormEvent) => {
         e?.preventDefault();
-        if (!inputValue.trim() || isStreaming) return;
+        if (!inputValue.trim() || isStreaming || !user) return;
+
+        // Validate required context
+        if (!selectedServiceId || !selectedSubmodule) {
+            console.warn("Service and submodule must be selected before sending message");
+            return;
+        }
 
         const userMsg: ChatMessage = {
             id: Date.now().toString(),
@@ -60,39 +70,54 @@ export function ChatInterface() {
         setIsStreaming(true);
 
         try {
-            const stream = await mockApi.sendMessage(userMsg.content);
-            const reader = stream.getReader();
+            // Find the selected service name
+            const selectedService = services.find((s) => s.service_id === selectedServiceId);
+            const serviceName = selectedService?.service_name || selectedServiceId.toString();
 
             const assistantMsgId = (Date.now() + 1).toString();
 
+            // Add loading message
             setMessages((prev) => [
                 ...prev,
                 {
                     id: assistantMsgId,
                     role: "assistant",
-                    content: "",
+                    content: t.chat.processing,
                     timestamp: new Date().toISOString(),
                 },
             ]);
 
-            let accumulatedContent = "";
+            // Send message to backend chat API with context
+            const result = await chatService.sendChatMessage(
+                userMsg.content,
+                serviceName,
+                selectedSubmodule,
+                user.name,
+                aiModel
+            );
 
-            while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-
-                accumulatedContent += value;
-                // Update the last message with new content
-                setMessages((prev) =>
-                    prev.map(m =>
-                        m.id === assistantMsgId
-                            ? { ...m, content: accumulatedContent }
-                            : m
-                    )
-                );
-            }
+            // Update the message with the actual answer and sources
+            setMessages((prev) =>
+                prev.map(m =>
+                    m.id === assistantMsgId
+                        ? {
+                            ...m,
+                            content: result.answer,
+                            sources: result.sources,
+                        }
+                        : m
+                )
+            );
         } catch (error) {
             console.error("Chat error:", error);
+            // Add error message to chat
+            const errorMsg: ChatMessage = {
+                id: (Date.now() + 2).toString(),
+                role: "assistant",
+                content: `${t.chat.error}: ${error instanceof Error ? error.message : t.chat.failedToSend}`,
+                timestamp: new Date().toISOString(),
+            };
+            setMessages((prev) => [...prev, errorMsg]);
         } finally {
             setIsStreaming(false);
         }

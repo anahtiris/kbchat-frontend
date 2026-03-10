@@ -33,12 +33,27 @@ export interface Document {
     boundaries: RagBoundary[];
 }
 
+export interface ChatSource {
+    id: string;
+    similarity: number;
+    metadata: {
+        domain: string;
+        source: string;
+        chunk_index: number;
+        document_id: string;
+        page_number: number[];
+        section_title: string;
+        hierarchy_level: number;
+    };
+}
+
 export interface ChatMessage {
     id: string;
     role: "user" | "assistant";
     content: string;
     timestamp: string;
-    citations?: string[]; // IDs of documents cited
+    sources?: ChatSource[]; // Sources/citations from the answer
+    citations?: string[]; // IDs of documents cited (legacy)
 }
 
 export interface KnowledgeBaseService {
