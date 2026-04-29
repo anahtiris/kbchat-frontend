@@ -22,12 +22,29 @@ export function ScopeSelector({
     const [isSubmoduleOpen, setIsSubmoduleOpen] = React.useState(false);
     const { t } = useTranslation();
 
+    const serviceRef = React.useRef<HTMLDivElement>(null);
+    const submoduleRef = React.useRef<HTMLDivElement>(null);
+
     const selectedService = services.find(s => s.service_id === selectedServiceId);
+
+    // Close dropdowns when clicking outside their containers
+    React.useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (serviceRef.current && !serviceRef.current.contains(e.target as Node)) {
+                setIsServiceOpen(false);
+            }
+            if (submoduleRef.current && !submoduleRef.current.contains(e.target as Node)) {
+                setIsSubmoduleOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     return (
         <div className="flex flex-wrap items-center gap-2">
             {/* Service Selector */}
-            <div className="relative inline-block text-left">
+            <div ref={serviceRef} className="relative inline-block text-left">
                 <Button
                     variant="outline"
                     onClick={() => setIsServiceOpen(!isServiceOpen)}
@@ -65,13 +82,12 @@ export function ScopeSelector({
                                 </div>
                             ))
                         )}
-                        <div className="fixed inset-0 -z-10" onClick={() => setIsServiceOpen(false)} />
                     </div>
                 )}
             </div>
 
             {/* Submodule Selector (Only visible if a service is selected) */}
-            <div className="relative inline-block text-left">
+            <div ref={submoduleRef} className="relative inline-block text-left">
                 <Button
                     variant="outline"
                     disabled={!selectedService}
@@ -109,7 +125,6 @@ export function ScopeSelector({
                                 </div>
                             ))
                         )}
-                        <div className="fixed inset-0 -z-10" onClick={() => setIsSubmoduleOpen(false)} />
                     </div>
                 )}
             </div>

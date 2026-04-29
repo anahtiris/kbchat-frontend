@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Dialog } from "../../ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Document, Page, pdfjs } from "react-pdf";
@@ -14,11 +14,11 @@ interface PDFViewerOverlayProps {
 }
 
 export function PDFViewerOverlay({ open, onClose, pdfUrl, pageNumber }: PDFViewerOverlayProps) {
-  const pageRef = useRef<number>(pageNumber || 1);
+  const [currentPage, setCurrentPage] = useState(pageNumber || 1);
 
   useEffect(() => {
-    pageRef.current = pageNumber || 1;
-  }, [open, pdfUrl]);
+    setCurrentPage(pageNumber || 1);
+  }, [open, pdfUrl, pageNumber]);
 
   return (
     <Dialog open={open} onClose={onClose}>
@@ -29,7 +29,7 @@ export function PDFViewerOverlay({ open, onClose, pdfUrl, pageNumber }: PDFViewe
         </div>
         <div className="flex-1 overflow-auto flex justify-center items-center">
           <Document file={pdfUrl} loading={<div>Loading PDF...</div>}>
-            <Page pageNumber={pageRef.current} width={800} />
+            <Page pageNumber={currentPage} width={800} />
           </Document>
         </div>
       </div>
