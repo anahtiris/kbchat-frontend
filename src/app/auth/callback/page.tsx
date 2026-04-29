@@ -54,7 +54,7 @@ function AuthCallback() {
         };
 
         handleCallback();
-    }, [searchParams, router, backendUrl, clientSecret, refreshSession]);
+    }, [searchParams, router, backendUrl, refreshSession]);
 
     if (error) {
         return (

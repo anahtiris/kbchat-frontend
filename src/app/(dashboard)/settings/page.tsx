@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "@/lib/i18n/context";
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -109,7 +109,7 @@ export default function SettingsPage() {
     };
 
     // Fetch prompt on mount
-    useState(() => { fetchPrompt(); }, []);
+    useEffect(() => { fetchPrompt(); }, []);
 
     return (
         <div className="space-y-6">
