@@ -4,7 +4,7 @@ A RAG-based internal support application built with Next.js, TypeScript, and Tai
 This system provides clinical guidelines and instructions for the usage of the **Ondamed** treatment machine.
 
 ## Tech Stack
-*   **Framework**: Next.js 14+ (App Router)
+*   **Framework**: Next.js 16 (App Router)
 *   **Language**: TypeScript
 *   **Styling**: Tailwind CSS + Shadcn UI (inspired)
 *   **Icons**: Lucide React

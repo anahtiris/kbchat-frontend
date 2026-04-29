@@ -43,7 +43,7 @@ Roles are defined in `src/lib/constants/auth.ts`: `admin`, `staff`, `viewer`. Pe
 
 ### Backend API contract
 
-All backend calls use `NEXT_PUBLIC_BACKEND_URL` (default `http://localhost:4000`), with `credentials: "include"` for cookie auth.
+All backend calls use `NEXT_PUBLIC_BACKEND_URL` (default `http://localhost:4000`), with `credentials: "include"` for cookie auth. **Every new `fetch` to the backend must include `credentials: "include"`, without exception — omitting it silently breaks authentication in production.**
 
 Key endpoints:
 - `POST /api/chat` — streaming SSE chat (line-delimited `data: {...}` with `type: "token" | "status" | "done" | "error"`)
@@ -69,3 +69,13 @@ Add translations to both `en` and `th` entries in `src/lib/i18n/dictionaries.ts`
 ### DEV-only mock login
 
 When `NEXT_PUBLIC_ENV_NAME=DEV`, the login page exposes role-picker buttons that call `auth.login(role)` directly, bypassing Azure. This stores a mock user in localStorage.
+
+### Click-outside pattern for dropdowns
+
+Use a `useRef` on the container div and a `document` `mousedown` listener in a `useEffect` — do not use a `fixed inset-0 z-index:-10` backdrop div, which does not intercept clicks over normal page content. See `src/components/features/chat/scope-selector.tsx` for the reference implementation.
+
+### Known remaining issues (Batch 4)
+
+- **`message-bubble.tsx`** — `handleSourceClick` passes `selectedServiceId` (a number) where the PDF URL expects a service name string when `source.service_name` is missing.
+- **`document-registration.tsx:35`** — Validation error `"All fields are required"` is hardcoded English; should use a `t.*` key.
+- **`service-manager.tsx:82`** — Delete confirmation uses `window.confirm()`, which is not i18n'd and is blocked in some browser contexts (iframes, strict CSP). Should be replaced with a proper dialog.
