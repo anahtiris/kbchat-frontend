@@ -28,10 +28,15 @@ This system provides clinical guidelines and instructions for the usage of the *
     ```
 
 2.  **Environment Setup**
-    Copy `.env.example` to `.env` and fill in your Azure AD and Backend credentials:
+    Copy `.env.example` to `.env` and fill in your credentials:
     ```bash
     cp .env.example .env
     ```
+    Key variables:
+    - `NEXT_PUBLIC_BACKEND_URL` — Python backend base URL (default `http://localhost:4000`)
+    - `NEXT_PUBLIC_AZURE_AD_CLIENT_ID` / `NEXT_PUBLIC_AZURE_AD_TENANT_ID` — Azure Entra ID app registration
+    - `NEXT_PUBLIC_BLOB_STORAGE_URL` — Azure Blob Storage container URL for uploaded PDFs
+    - **The Azure AD client secret must only be configured on the backend, never in `.env`.**
 
 3.  **Run Development Server**
     ```bash

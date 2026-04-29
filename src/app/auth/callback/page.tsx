@@ -13,7 +13,6 @@ function AuthCallback() {
     const [error, setError] = useState<string | null>(null);
 
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
-    const clientSecret = process.env.NEXT_PUBLIC_AZURE_AD_CLIENT_SECRET;
 
     useEffect(() => {
         const handleCallback = async () => {
@@ -26,14 +25,14 @@ function AuthCallback() {
             }
 
             try {
-                // Handshake with the backend to exchange code for a session
+                // Handshake with the backend to exchange code for a session.
+                // The client_secret stays on the backend — never send it from the browser.
                 const response = await fetch(`${backendUrl}/api/auth/callback`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
                         code,
                         state,
-                        client_secret: clientSecret,
                         redirect_uri: `${window.location.origin}/auth/callback`
                     }),
                     credentials: "include", // Essential for receiving the session cookie

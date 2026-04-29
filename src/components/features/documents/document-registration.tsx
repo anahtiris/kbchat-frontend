@@ -139,7 +139,8 @@ export function DocumentRegistration({ services, onSave, onCancel }: Registratio
                             onChange={(e) => {
                                 const file = e.target.files?.[0];
                                 if (file) {
-                                    setBlobDirectory(`https://kbchathaprodstg.blob.core.windows.net/uploads/${file.name}`);
+                                    const storageBase = process.env.NEXT_PUBLIC_BLOB_STORAGE_URL || "";
+                                    setBlobDirectory(storageBase ? `${storageBase}/${file.name}` : file.name);
                                 }
                             }}
                             className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
