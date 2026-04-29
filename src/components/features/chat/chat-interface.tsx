@@ -193,7 +193,7 @@ export function ChatInterface() {
                         <MessageBubble
                             key={msg.id}
                             message={msg}
-                            selectedServiceId={selectedServiceId}
+                            selectedServiceName={services.find(s => s.service_id === selectedServiceId)?.service_name ?? null}
                             selectedSubmodule={selectedSubmodule}
                         />
                     ))}

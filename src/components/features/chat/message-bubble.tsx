@@ -6,7 +6,7 @@ import { useTranslation } from "@/lib/i18n/context";
 import { useChatSettings } from "@/lib/contexts/chat-settings-context";
 import { PDFViewerOverlay } from "../documents/pdf-viewer-overlay";
 
-export const MessageBubble = memo(function MessageBubble({ message, selectedServiceId, selectedSubmodule }: { message: ChatMessage, selectedServiceId?: number | null, selectedSubmodule?: string | null }) {
+export const MessageBubble = memo(function MessageBubble({ message, selectedServiceName, selectedSubmodule }: { message: ChatMessage, selectedServiceName?: string | null, selectedSubmodule?: string | null }) {
     const isUser = message.role === "user";
     const { t } = useTranslation();
     const { relevanceThreshold } = useChatSettings();
@@ -22,13 +22,8 @@ export const MessageBubble = memo(function MessageBubble({ message, selectedServ
     const [pdfPage, setPdfPage] = useState<number | undefined>(undefined);
 
     const handleSourceClick = (source: any) => {
-        // Use selectedServiceId and selectedSubmodule from props if available
-        const service = selectedServiceId !== undefined && selectedServiceId !== null
-            ? source.service_name || selectedServiceId
-            : source.metadata.service || source.metadata.service_name || source.metadata.domain;
-        const submodule = selectedSubmodule !== undefined && selectedSubmodule !== null
-            ? selectedSubmodule
-            : source.metadata.submodule || source.metadata.submodule_name || source.metadata.source;
+        const service = selectedServiceName || source.metadata.domain;
+        const submodule = selectedSubmodule || source.metadata.submodule || source.metadata.source;
         const page = Array.isArray(source.metadata.page_number) ? source.metadata.page_number[0] : 1;
         const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
         setPdfUrl(`${backendUrl}/api/documents/pdf?service=${service}&submodule=${submodule}`);

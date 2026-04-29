@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Plus, Trash2, Edit2, Check, X, Layers } from "lucide-react";
+import { Plus, Trash2, Edit2, Check, X, Layers, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Dialog } from "@/components/ui/dialog";
 import { KnowledgeBaseService } from "@/lib/types";
 import { useTranslation } from "@/lib/i18n/context";
 import { cn } from "@/lib/utils";
@@ -18,6 +19,7 @@ export function ServiceManager() {
     const [editingServiceId, setEditingServiceId] = useState<number | null>(null);
     const [editingSubmodules, setEditingSubmodules] = useState<string[]>([]);
     const [newSubmodule, setNewSubmodule] = useState("");
+    const [deletePendingId, setDeletePendingId] = useState<number | null>(null);
 
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
 
@@ -78,17 +80,20 @@ export function ServiceManager() {
         }
     };
 
-    const handleDeleteService = async (id: number) => {
-        if (!confirm("Are you sure you want to delete this service?")) return;
+    const handleDeleteService = async () => {
+        if (deletePendingId === null) return;
         try {
-            const response = await fetch(`${backendUrl}/api/admin/services/${id}`, {
-                method: "DELETE"
+            const response = await fetch(`${backendUrl}/api/admin/services/${deletePendingId}`, {
+                method: "DELETE",
+                credentials: "include",
             });
             if (response.ok) {
                 loadServices();
             }
         } catch (error) {
             console.error("Failed to delete service:", error);
+        } finally {
+            setDeletePendingId(null);
         }
     };
 
@@ -269,7 +274,7 @@ export function ServiceManager() {
                                         <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-900" onClick={() => startEditing(service)}>
                                             <Edit2 className="h-4 w-4" />
                                         </Button>
-                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-red-500" onClick={() => handleDeleteService(service.service_id)}>
+                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-red-500" onClick={() => setDeletePendingId(service.service_id)}>
                                             <Trash2 className="h-4 w-4" />
                                         </Button>
                                     </div>
@@ -279,6 +284,24 @@ export function ServiceManager() {
                     ))
                 )}
             </div>
+
+            <Dialog open={deletePendingId !== null} onClose={() => setDeletePendingId(null)}>
+                <div className="flex flex-col gap-4 pt-2">
+                    <div className="flex items-center gap-3">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600">
+                            <AlertTriangle className="h-5 w-5" />
+                        </div>
+                        <div>
+                            <p className="font-semibold text-slate-900">{t.docs.deleteServiceConfirmTitle}</p>
+                            <p className="text-sm text-slate-500">{t.docs.deleteServiceConfirm}</p>
+                        </div>
+                    </div>
+                    <div className="flex justify-end gap-2">
+                        <Button variant="ghost" onClick={() => setDeletePendingId(null)}>{t.common.cancel}</Button>
+                        <Button className="bg-red-600 hover:bg-red-700 text-white" onClick={handleDeleteService}>{t.docs.deleteService}</Button>
+                    </div>
+                </div>
+            </Dialog>
         </div>
     );
 }

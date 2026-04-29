@@ -32,7 +32,7 @@ export function DocumentRegistration({ services, onSave, onCancel }: Registratio
 
     const handleSave = async () => {
         if (!serviceId || !submodule || !blobDirectory) {
-            setError("All fields are required");
+            setError(t.docs.allFieldsRequired);
             return;
         }
 

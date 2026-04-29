@@ -87,6 +87,9 @@ export const dictionary = {
             addManual: "Add Manual",
             uploadFile: "Upload File",
             chooseFile: "Choose File",
+            allFieldsRequired: "All fields are required",
+            deleteServiceConfirmTitle: "Delete Service",
+            deleteServiceConfirm: "Are you sure you want to delete this service? This cannot be undone.",
         },
         login: {
             title: "Ondamed Support System",
@@ -233,6 +236,9 @@ export const dictionary = {
             addManual: "เพิ่มคู่มือ",
             uploadFile: "อัปโหลดไฟล์",
             chooseFile: "เลือกไฟล์",
+            allFieldsRequired: "กรุณากรอกข้อมูลให้ครบทุกช่อง",
+            deleteServiceConfirmTitle: "ลบบริการ",
+            deleteServiceConfirm: "คุณแน่ใจหรือไม่ว่าต้องการลบบริการนี้? การดำเนินการนี้ไม่สามารถยกเลิกได้",
         },
         login: {
             title: "ระบบสนับสนุน Ondamed",
