@@ -134,7 +134,7 @@ export function ChatInterface() {
                     },
                     onError: (msg) => {
                         setMessages((prev) => [
-                            ...prev,
+                            ...prev.filter(m => m.id !== assistantMsgId),
                             {
                                 id: crypto.randomUUID(),
                                 role: "assistant",
