@@ -17,9 +17,6 @@ export function PDFViewerOverlay({ open, onClose, pdfUrl, pageNumber }: PDFViewe
   const pageRef = useRef<number>(pageNumber || 1);
 
   useEffect(() => {
-    if (open) {
-      console.log("PDF URL:", pdfUrl);
-    }
     pageRef.current = pageNumber || 1;
   }, [open, pdfUrl]);
 

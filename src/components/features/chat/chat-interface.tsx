@@ -59,7 +59,7 @@ export function ChatInterface() {
         }
 
         const userMsg: ChatMessage = {
-            id: Date.now().toString(),
+            id: crypto.randomUUID(),
             role: "user",
             content: inputValue,
             timestamp: new Date().toISOString(),
@@ -74,7 +74,7 @@ export function ChatInterface() {
             const selectedService = services.find((s) => s.service_id === selectedServiceId);
             const serviceName = selectedService?.service_name || selectedServiceId.toString();
 
-            const assistantMsgId = (Date.now() + 1).toString();
+            const assistantMsgId = crypto.randomUUID();
 
             // Add loading message
             setMessages((prev) => [
@@ -136,7 +136,7 @@ export function ChatInterface() {
                         setMessages((prev) => [
                             ...prev,
                             {
-                                id: (Date.now() + 2).toString(),
+                                id: crypto.randomUUID(),
                                 role: "assistant",
                                 content: `${t.chat.error}: ${msg}`,
                                 timestamp: new Date().toISOString(),
@@ -149,7 +149,7 @@ export function ChatInterface() {
             console.error("Chat error:", error);
             // Add error message to chat
             const errorMsg: ChatMessage = {
-                id: (Date.now() + 2).toString(),
+                id: crypto.randomUUID(),
                 role: "assistant",
                 content: `${t.chat.error}: ${error instanceof Error ? error.message : t.chat.failedToSend}`,
                 timestamp: new Date().toISOString(),
