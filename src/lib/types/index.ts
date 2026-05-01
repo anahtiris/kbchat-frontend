@@ -61,3 +61,68 @@ export interface KnowledgeBaseService {
     service_name: string;
     submodules: string[];
 }
+
+export type StockStatus = "ok" | "low" | "out";
+
+export interface InventoryItem {
+    id: string;
+    name: string;
+    sku?: string;
+    category: string;
+    unit: string;
+    quantity: number;
+    min_threshold?: number;
+    supplier_name?: string;
+    is_active: boolean;
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface StockMovement {
+    id: string;
+    item_id: string;
+    type: "receive" | "consume" | "adjust" | "expire";
+    quantity_delta: number;
+    reference_id?: string;
+    reference_type?: "procedure_execution" | "manual_adjustment";
+    notes?: string;
+    performed_by: string;
+    created_at: string;
+}
+
+export interface ProcedureConsumable {
+    item_id: string;
+    item_name: string;
+    unit: string;
+    default_quantity: number;
+    is_optional: boolean;
+}
+
+export interface Procedure {
+    id: string;
+    name: string;
+    category?: string;
+    estimated_duration_min?: number;
+    notes?: string;
+    is_active: boolean;
+    consumables: ProcedureConsumable[];
+    created_at?: string;
+}
+
+export interface ConsumableLineItem extends ProcedureConsumable {
+    adjusted_quantity: number;
+    current_stock: number;
+    min_threshold?: number;
+    status: StockStatus;
+    checked: boolean;
+}
+
+export interface ProcedureExecution {
+    id: string;
+    procedure_id: string;
+    procedure_name: string;
+    performed_by: string;
+    notes?: string;
+    items: { item_id: string; item_name: string; quantity_consumed: number; unit: string }[];
+    created_at: string;
+}

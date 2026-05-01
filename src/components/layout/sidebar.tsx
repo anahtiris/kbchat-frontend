@@ -6,7 +6,7 @@ import { useAuth } from "@/components/features/auth/auth-context";
 import { cn } from "@/lib/utils";
 import { useTranslation } from "@/lib/i18n/context";
 import { useLayout } from "@/components/layout/layout-context";
-import { LayoutDashboard, MessageSquare, FileText, Settings, LogOut, X } from "lucide-react";
+import { LayoutDashboard, MessageSquare, FileText, Settings, LogOut, X, Package, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ROLES } from "@/lib/constants/auth";
 
@@ -24,6 +24,18 @@ export function Sidebar() {
             href: "/dashboard",
             icon: MessageSquare,
             role: [ROLES.ADMIN, ROLES.VIEWER, ROLES.STAFF]
+        },
+        {
+            name: t.nav.procedures,
+            href: "/procedures",
+            icon: Stethoscope,
+            role: [ROLES.ADMIN, ROLES.STAFF]
+        },
+        {
+            name: t.nav.inventory,
+            href: "/inventory",
+            icon: Package,
+            role: [ROLES.ADMIN, ROLES.STAFF, ROLES.VIEWER]
         },
         {
             name: t.nav.documents,
