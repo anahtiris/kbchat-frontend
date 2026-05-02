@@ -26,6 +26,10 @@ export default function InventoryPage() {
         setItems((prev) => prev.map((i) => (i.id === updated.id ? updated : i)));
     };
 
+    const handleItemAdded = (item: InventoryItem) => {
+        setItems((prev) => [...prev, item]);
+    };
+
     return (
         <div className="space-y-6">
             <div className="flex items-center gap-3">
@@ -48,6 +52,7 @@ export default function InventoryPage() {
                     items={items}
                     isAdmin={user?.role === ROLES.ADMIN}
                     onItemUpdated={handleItemUpdated}
+                    onItemAdded={handleItemAdded}
                 />
             )}
         </div>

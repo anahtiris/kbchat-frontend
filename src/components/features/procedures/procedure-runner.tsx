@@ -71,12 +71,12 @@ export function ProcedureRunner({ procedure, items, onClose, onSuccess }: Proced
         <Dialog open={true} onClose={isConfirming ? () => {} : onClose}>
             <div className="w-[520px] max-w-[90vw] space-y-4 pt-1">
                 <div>
-                    <h3 className="text-lg font-bold text-slate-900">{t.procedures.runnerTitle}</h3>
+                    <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100">{t.procedures.runnerTitle}</h3>
                     <p className="text-sm text-slate-500">{procedure.name} — {t.procedures.runnerSubtitle}</p>
                 </div>
 
-                <div className="rounded-lg border border-slate-200 divide-y divide-slate-100 overflow-hidden">
-                    <div className="grid grid-cols-[1rem_1fr_auto_auto] gap-3 px-4 py-2 bg-slate-50 text-xs font-semibold uppercase tracking-wide text-slate-500">
+                <div className="rounded-lg border border-slate-200 dark:border-slate-700 divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden">
+                    <div className="grid grid-cols-[1rem_1fr_auto_auto] gap-3 px-4 py-2 bg-slate-50 dark:bg-slate-800/50 text-xs font-semibold uppercase tracking-wide text-slate-500">
                         <span />
                         <span>Item</span>
                         <span className="hidden sm:block">Status</span>
@@ -116,7 +116,7 @@ export function ProcedureRunner({ procedure, items, onClose, onSuccess }: Proced
                     </div>
                 )}
 
-                <div className="flex justify-end gap-2 border-t border-slate-100 pt-3">
+                <div className="flex justify-end gap-2 border-t border-slate-100 dark:border-slate-800 pt-3">
                     <Button variant="ghost" onClick={onClose} disabled={isConfirming}>
                         {t.common.cancel}
                     </Button>

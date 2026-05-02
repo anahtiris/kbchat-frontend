@@ -25,23 +25,23 @@ export function QuantityInput({ value, onChange, min = 0, max, step = 1, disable
     };
 
     return (
-        <div className={cn("inline-flex items-center rounded-md border border-slate-200 bg-white", disabled && "opacity-50 pointer-events-none", className)}>
+        <div className={cn("inline-flex items-center rounded-md border border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800", disabled && "opacity-50 pointer-events-none", className)}>
             <button
                 type="button"
                 onClick={decrement}
                 disabled={disabled || value <= min}
-                className="flex h-8 w-8 items-center justify-center text-slate-500 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed rounded-l-md transition-colors"
+                className="flex h-8 w-8 items-center justify-center text-slate-500 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed rounded-l-md transition-colors dark:hover:bg-slate-700"
             >
                 <Minus className="h-3 w-3" />
             </button>
-            <span className="w-10 text-center text-sm font-medium text-slate-900 select-none">
+            <span className="w-10 text-center text-sm font-medium text-slate-900 dark:text-slate-100 select-none">
                 {value}
             </span>
             <button
                 type="button"
                 onClick={increment}
                 disabled={disabled || (max !== undefined && value >= max)}
-                className="flex h-8 w-8 items-center justify-center text-slate-500 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed rounded-r-md transition-colors"
+                className="flex h-8 w-8 items-center justify-center text-slate-500 hover:bg-slate-50 disabled:opacity-30 disabled:cursor-not-allowed rounded-r-md transition-colors dark:hover:bg-slate-700"
             >
                 <Plus className="h-3 w-3" />
             </button>

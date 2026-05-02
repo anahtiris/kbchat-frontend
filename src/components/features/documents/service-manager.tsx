@@ -117,7 +117,7 @@ export function ServiceManager() {
         <div className="space-y-6">
             <div className="flex items-center justify-between">
                 <div>
-                    <h3 className="text-lg font-semibold text-slate-900">{t.docs.managementTitle}</h3>
+                    <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">{t.docs.managementTitle}</h3>
                     <p className="text-sm text-slate-500">{t.docs.managementDesc}</p>
                 </div>
                 <Button onClick={() => setIsCreating(true)} disabled={isCreating}>
@@ -126,10 +126,10 @@ export function ServiceManager() {
             </div>
 
             {isCreating && (
-                <div className="rounded-lg border border-blue-200 bg-blue-50/50 p-6 animate-in fade-in slide-in-from-top-2 space-y-4">
+                <div className="rounded-lg border border-blue-200 dark:border-blue-800/40 bg-blue-50/50 dark:bg-blue-900/10 p-6 animate-in fade-in slide-in-from-top-2 space-y-4">
                     <div className="grid gap-4 sm:grid-cols-2">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-700">{t.docs.serviceName}</label>
+                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{t.docs.serviceName}</label>
                             <Input
                                 value={newServiceName}
                                 onChange={(e) => setNewServiceName(e.target.value)}
@@ -139,10 +139,10 @@ export function ServiceManager() {
                             />
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-700">{t.docs.submodules}</label>
+                            <label className="text-sm font-medium text-slate-700 dark:text-slate-300">{t.docs.submodules}</label>
                             <div className="flex flex-wrap gap-1.5 mb-2">
                                 {newServiceSubmodules.map((sub) => (
-                                    <span key={sub} className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-700">
+                                    <span key={sub} className="inline-flex items-center rounded-full bg-blue-100 dark:bg-blue-900/30 px-2.5 py-0.5 text-xs font-medium text-blue-700 dark:text-blue-400">
                                         {sub}
                                         <button
                                             onClick={() => setNewServiceSubmodules(newServiceSubmodules.filter(s => s !== sub))}
@@ -185,7 +185,7 @@ export function ServiceManager() {
                             </div>
                         </div>
                     </div>
-                    <div className="flex justify-end gap-2 border-t border-blue-100 pt-4">
+                    <div className="flex justify-end gap-2 border-t border-blue-100 dark:border-blue-800/40 pt-4">
                         <Button variant="ghost" onClick={() => {
                             setIsCreating(false);
                             setNewServiceSubmodules([]);
@@ -202,16 +202,16 @@ export function ServiceManager() {
                 {isLoading ? (
                     <div className="py-12 text-center text-slate-400">{t.common.loading}</div>
                 ) : services.length === 0 ? (
-                    <div className="rounded-lg border border-dashed border-slate-300 bg-slate-50 p-12 text-center">
-                        <Layers className="mx-auto mb-4 h-12 w-12 text-slate-300" />
+                    <div className="rounded-lg border border-dashed border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 p-12 text-center">
+                        <Layers className="mx-auto mb-4 h-12 w-12 text-slate-300 dark:text-slate-600" />
                         <p className="text-slate-500">{t.selector.noServices}</p>
                     </div>
                 ) : (
                     services.map((service) => (
-                        <div key={service.service_id} className="rounded-lg border border-slate-200 bg-white p-4 transition-all hover:shadow-md">
+                        <div key={service.service_id} className="rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 p-4 transition-all hover:shadow-md">
                             <div className="flex items-start justify-between">
                                 <div className="space-y-1">
-                                    <h4 className="font-bold text-slate-900 flex items-center gap-2">
+                                    <h4 className="font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
                                         <Layers className="h-4 w-4 text-slate-400" />
                                         {service.service_name}
                                         <span className="text-xs font-normal text-slate-400">(ID: {service.service_id})</span>
@@ -221,7 +221,7 @@ export function ServiceManager() {
                                             <div className="w-full space-y-3">
                                                 <div className="flex flex-wrap gap-1.5">
                                                     {editingSubmodules.map((sub) => (
-                                                        <span key={sub} className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-700">
+                                                        <span key={sub} className="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-700 px-2.5 py-0.5 text-xs font-medium text-slate-700 dark:text-slate-200">
                                                             {sub}
                                                             <button
                                                                 onClick={() => removeSubmodule(sub)}
@@ -240,8 +240,8 @@ export function ServiceManager() {
                                                         placeholder={t.docs.submodulePlaceholder}
                                                         className="h-9 text-sm"
                                                     />
-                                                    <Button size="sm" onClick={addSubmodule} variant="outline" className="border-slate-300">
-                                                        <Plus className="h-4 w-4 text-slate-600" />
+                                                    <Button size="sm" onClick={addSubmodule} variant="outline" className="border-slate-300 dark:border-slate-600">
+                                                        <Plus className="h-4 w-4 text-slate-600 dark:text-slate-400" />
                                                     </Button>
                                                 </div>
                                                 <div className="flex justify-end gap-2 pt-2">
@@ -259,7 +259,7 @@ export function ServiceManager() {
                                                     <span className="text-xs italic text-slate-400">No submodules defined</span>
                                                 ) : (
                                                     service.submodules.map((sub) => (
-                                                        <span key={sub} className="inline-flex items-center rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-medium text-slate-600">
+                                                        <span key={sub} className="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-700 px-2.5 py-0.5 text-xs font-medium text-slate-600 dark:text-slate-400">
                                                             {sub}
                                                         </span>
                                                     ))
@@ -271,7 +271,7 @@ export function ServiceManager() {
 
                                 {editingServiceId !== service.service_id && (
                                     <div className="flex gap-1">
-                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-900" onClick={() => startEditing(service)}>
+                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-slate-900 dark:hover:text-slate-100" onClick={() => startEditing(service)}>
                                             <Edit2 className="h-4 w-4" />
                                         </Button>
                                         <Button variant="ghost" size="icon" className="h-8 w-8 text-slate-400 hover:text-red-500" onClick={() => setDeletePendingId(service.service_id)}>
@@ -288,12 +288,12 @@ export function ServiceManager() {
             <Dialog open={deletePendingId !== null} onClose={() => setDeletePendingId(null)}>
                 <div className="flex flex-col gap-4 pt-2">
                     <div className="flex items-center gap-3">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400">
                             <AlertTriangle className="h-5 w-5" />
                         </div>
                         <div>
-                            <p className="font-semibold text-slate-900">{t.docs.deleteServiceConfirmTitle}</p>
-                            <p className="text-sm text-slate-500">{t.docs.deleteServiceConfirm}</p>
+                            <p className="font-semibold text-slate-900 dark:text-slate-100">{t.docs.deleteServiceConfirmTitle}</p>
+                            <p className="text-sm text-slate-500 dark:text-slate-400">{t.docs.deleteServiceConfirm}</p>
                         </div>
                     </div>
                     <div className="flex justify-end gap-2">

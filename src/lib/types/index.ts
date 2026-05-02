@@ -73,6 +73,10 @@ export interface InventoryItem {
     quantity: number;
     min_threshold?: number;
     supplier_name?: string;
+    nearest_expiry?: string;       // ISO date; earliest non-expired batch expiry, computed by backend
+    track_expiry?: boolean;        // false = disable expiry alerts for this item type (default true)
+    expiry_critical_days?: number; // overrides global EXPIRY_CRITICAL_DAYS when set
+    expiry_warning_days?: number;  // overrides global EXPIRY_WARNING_DAYS when set
     is_active: boolean;
     created_at?: string;
     updated_at?: string;
@@ -88,6 +92,8 @@ export interface StockMovement {
     notes?: string;
     performed_by: string;
     created_at: string;
+    lot_number?: string;
+    expiry_date?: string;  // ISO date; only populated on "receive" movements
 }
 
 export interface ProcedureConsumable {
@@ -102,7 +108,6 @@ export interface Procedure {
     id: string;
     name: string;
     category?: string;
-    estimated_duration_min?: number;
     notes?: string;
     is_active: boolean;
     consumables: ProcedureConsumable[];

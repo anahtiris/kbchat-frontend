@@ -36,6 +36,14 @@ export default function ProceduresPage() {
         setTimeout(() => setLastExecution(null), 5000);
     };
 
+    const handleProcedureAdded = (proc: Procedure) => {
+        setProcedures((prev) => [...prev, proc]);
+    };
+
+    const handleProcedureUpdated = (proc: Procedure) => {
+        setProcedures((prev) => prev.map((p) => (p.id === proc.id ? proc : p)));
+    };
+
     return (
         <div className="space-y-6">
             {/* Page Header */}
@@ -78,8 +86,11 @@ export default function ProceduresPage() {
             ) : (
                 <ProcedureList
                     procedures={procedures}
+                    availableItems={items}
                     onRun={setRunningProcedure}
                     isAdmin={user?.role === ROLES.ADMIN}
+                    onProcedureAdded={handleProcedureAdded}
+                    onProcedureUpdated={handleProcedureUpdated}
                 />
             )}
 

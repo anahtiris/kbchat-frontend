@@ -72,13 +72,13 @@ export function DocumentRegistration({ services, onSave, onCancel }: Registratio
     };
 
     return (
-        <div className="rounded-xl border border-blue-200 bg-white shadow-lg animate-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between border-b border-slate-100 p-4">
+        <div className="rounded-xl border border-blue-200 dark:border-blue-800/40 bg-white dark:bg-slate-900 shadow-lg animate-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 p-4">
                 <div className="flex items-center gap-2">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
+                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 dark:bg-blue-900/20 text-blue-600">
                         <FileText className="h-4 w-4" />
                     </div>
-                    <h3 className="font-bold text-slate-900">{t.docs.registerManual}</h3>
+                    <h3 className="font-bold text-slate-900 dark:text-slate-100">{t.docs.registerManual}</h3>
                 </div>
                 <Button variant="ghost" size="icon" onClick={onCancel} className="h-8 w-8 text-slate-400">
                     <X className="h-4 w-4" />
@@ -96,14 +96,14 @@ export function DocumentRegistration({ services, onSave, onCancel }: Registratio
                 <div className="grid gap-6 sm:grid-cols-2">
                     {/* Service Selection */}
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold text-slate-700">{t.docs.selectService}</label>
+                        <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t.docs.selectService}</label>
                         <select
                             value={serviceId}
                             onChange={(e) => {
                                 setServiceId(Number(e.target.value));
                                 setSubmodule("");
                             }}
-                            className="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            className="h-10 w-full rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                         >
                             <option value="">{t.selector.servicePlaceholder}</option>
                             {services.map(s => (
@@ -114,12 +114,12 @@ export function DocumentRegistration({ services, onSave, onCancel }: Registratio
 
                     {/* Submodule Selection */}
                     <div className="space-y-2">
-                        <label className="text-sm font-semibold text-slate-700">{t.docs.selectSubmodule}</label>
+                        <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t.docs.selectSubmodule}</label>
                         <select
                             value={submodule}
                             onChange={(e) => setSubmodule(e.target.value)}
                             disabled={!serviceId}
-                            className="h-10 w-full rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                            className="h-10 w-full rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
                         >
                             <option value="">{t.selector.submodulePlaceholder}</option>
                             {selectedService?.submodules.map(sub => (
@@ -131,7 +131,7 @@ export function DocumentRegistration({ services, onSave, onCancel }: Registratio
 
                 {/* File Upload Section */}
                 <div className="space-y-2">
-                    <label className="text-sm font-semibold text-slate-700">{t.docs.uploadFile}</label>
+                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t.docs.uploadFile}</label>
                     <div className="relative">
                         <input
                             type="file"
@@ -147,17 +147,17 @@ export function DocumentRegistration({ services, onSave, onCancel }: Registratio
                         />
                         <div className={cn(
                             "flex items-center justify-between rounded-lg border-2 border-dashed p-4 transition-colors",
-                            blobDirectory ? "border-blue-200 bg-blue-50/30" : "border-slate-200 bg-slate-50 hover:bg-slate-100"
+                            blobDirectory ? "border-blue-200 dark:border-blue-800/40 bg-blue-50/30 dark:bg-blue-900/10" : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700"
                         )}>
                             <div className="flex items-center gap-3">
                                 <div className={cn(
                                     "flex h-10 w-10 items-center justify-center rounded-lg shadow-sm",
-                                    blobDirectory ? "bg-blue-600 text-white" : "bg-white text-slate-400"
+                                    blobDirectory ? "bg-blue-600 text-white" : "bg-white dark:bg-slate-700 text-slate-400 dark:text-slate-500"
                                 )}>
                                     <Upload className="h-5 w-5" />
                                 </div>
                                 <div>
-                                    <p className="text-sm font-medium text-slate-900">
+                                    <p className="text-sm font-medium text-slate-900 dark:text-slate-100">
                                         {blobDirectory ? blobDirectory.split('/').pop() : t.docs.chooseFile}
                                     </p>
                                     <p className="text-xs text-slate-500">PDF (Max 50MB)</p>
@@ -174,8 +174,8 @@ export function DocumentRegistration({ services, onSave, onCancel }: Registratio
 
                 {/* Boundaries */}
                 <div className="space-y-3">
-                    <label className="text-sm font-semibold text-slate-700">{t.docs.boundaries}</label>
-                    <div className="flex items-center gap-4 rounded-lg bg-slate-50 p-4 border border-slate-100">
+                    <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">{t.docs.boundaries}</label>
+                    <div className="flex items-center gap-4 rounded-lg bg-slate-50 dark:bg-slate-800 p-4 border border-slate-100 dark:border-slate-700">
                         <div className="flex-1 space-y-1.5">
                             <label className="text-xs text-slate-500 uppercase font-bold tracking-tight">{t.docs.from}</label>
                             <Input
@@ -200,7 +200,7 @@ export function DocumentRegistration({ services, onSave, onCancel }: Registratio
                 </div>
             </div>
 
-            <div className="flex items-center justify-end gap-3 border-t border-slate-100 p-4 bg-slate-50/50">
+            <div className="flex items-center justify-end gap-3 border-t border-slate-100 dark:border-slate-700 p-4 bg-slate-50/50 dark:bg-slate-800/30">
                 <Button variant="ghost" onClick={onCancel} disabled={isSaving}>
                     {t.common.cancel}
                 </Button>

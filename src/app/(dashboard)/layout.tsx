@@ -22,7 +22,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
 
     if (isLoading) {
         return (
-            <div className="flex h-screen w-full flex-col items-center justify-center bg-slate-50 gap-3">
+            <div className="flex h-screen w-full flex-col items-center justify-center bg-slate-50 dark:bg-slate-950 gap-3">
                 <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
                 <span className="font-medium text-slate-500 animate-pulse">{t.common.loading}</span>
             </div>
@@ -32,11 +32,11 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     if (!user) return null;
 
     return (
-        <div className="flex h-screen overflow-hidden bg-slate-50">
+        <div className="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
             <Sidebar />
             <div className="flex flex-1 flex-col overflow-hidden">
                 <TopBar />
-                <main className="flex-1 overflow-auto p-6">
+                <main className="flex-1 overflow-auto p-6 dark:bg-slate-950">
                     {children}
                 </main>
             </div>

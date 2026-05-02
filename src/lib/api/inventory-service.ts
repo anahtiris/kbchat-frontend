@@ -24,14 +24,26 @@ export const inventoryService = {
     receiveStock: (itemId: string, qty: number, notes?: string): Promise<InventoryItem> =>
         USE_MOCK ? inventoryMockApi.receiveStock(itemId, qty, notes) : realPost("/api/inventory/movements/receive", { item_id: itemId, quantity: qty, notes }),
 
-    adjustStock: (itemId: string, delta: number, notes: string): Promise<InventoryItem> =>
-        USE_MOCK ? inventoryMockApi.adjustStock(itemId, delta, notes) : realPost("/api/inventory/movements/adjust", { item_id: itemId, quantity_delta: delta, notes }),
+    adjustStock: (itemId: string, delta: number, notes: string, options?: { lot_number?: string; expiry_date?: string }): Promise<InventoryItem> =>
+        USE_MOCK ? inventoryMockApi.adjustStock(itemId, delta, notes, options) : realPost("/api/inventory/movements/adjust", { item_id: itemId, quantity_delta: delta, notes, ...options }),
+
+    expireStock: (itemId: string, qty: number, notes?: string, lot_number?: string): Promise<InventoryItem> =>
+        USE_MOCK ? inventoryMockApi.expireStock(itemId, qty, notes, lot_number) : realPost("/api/inventory/movements/expire", { item_id: itemId, quantity: qty, notes, lot_number }),
 
     getMovements: (itemId: string): Promise<StockMovement[]> =>
         USE_MOCK ? inventoryMockApi.getMovements(itemId) : realFetch(`/api/inventory/items/${itemId}/movements`),
 
     getProcedures: (): Promise<Procedure[]> =>
         USE_MOCK ? inventoryMockApi.getProcedures() : realFetch("/api/procedures"),
+
+    createProcedure: (proc: Omit<Procedure, "id">): Promise<Procedure> =>
+        USE_MOCK ? inventoryMockApi.createProcedure(proc) : realPost("/api/procedures", proc),
+
+    updateProcedure: (id: string, patch: Partial<Procedure>): Promise<Procedure> =>
+        USE_MOCK ? inventoryMockApi.updateProcedure(id, patch) : realPut(`/api/procedures/${id}`, patch),
+
+    deleteProcedure: (id: string): Promise<void> =>
+        USE_MOCK ? inventoryMockApi.deleteProcedure(id) : realDelete(`/api/procedures/${id}`),
 
     executeProcedure: (procedureId: string, lines: ConsumableLineItem[], notes?: string): Promise<ProcedureExecution> =>
         USE_MOCK ? inventoryMockApi.executeProcedure(procedureId, lines, notes) : realPost(`/api/procedures/${procedureId}/execute`, { items: lines.filter(l => l.checked).map(l => ({ item_id: l.item_id, quantity: l.adjusted_quantity })), notes }),

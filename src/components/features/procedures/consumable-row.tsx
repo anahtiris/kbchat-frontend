@@ -34,8 +34,8 @@ export function ConsumableRow({ line, onChange, disabled }: ConsumableRowProps) 
         <div className={cn(
             "flex items-center gap-3 px-4 py-3 transition-colors",
             !line.checked && "opacity-40",
-            line.status === "out" && line.checked && !disabled && "bg-red-50",
-            line.status === "low" && line.checked && !disabled && "bg-amber-50/40",
+            line.status === "out" && line.checked && !disabled && "bg-red-50 dark:bg-red-900/20",
+            line.status === "low" && line.checked && !disabled && "bg-amber-50/40 dark:bg-amber-900/10",
         )}>
             {/* Optional checkbox */}
             <div className="h-4 w-4 shrink-0 flex items-center justify-center">
@@ -54,7 +54,7 @@ export function ConsumableRow({ line, onChange, disabled }: ConsumableRowProps) 
 
             {/* Item info */}
             <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-slate-900 truncate">
+                <p className="text-sm font-medium text-slate-900 dark:text-slate-100 truncate">
                     {line.item_name}
                     {line.is_optional && (
                         <span className="ml-1.5 text-[10px] font-normal text-slate-400 uppercase tracking-wide">optional</span>
