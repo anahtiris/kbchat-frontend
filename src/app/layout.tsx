@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { AuthProvider } from "@/components/features/auth/auth-context";
 import { ChatSettingsProvider } from "@/lib/contexts/chat-settings-context";
 import { LanguageProvider } from "@/lib/i18n/context";
+import { AppearanceProvider } from "@/lib/contexts/appearance-context";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -16,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Ondamed - Guidelines Assistant",
-  description: "Manuals and instructions for Ondamed treatment machine",
+  title: "ClinicOS",
+  description: "Clinic operations platform — knowledge assistant, inventory, and procedure management",
 };
 
 export default function RootLayout({
@@ -30,13 +31,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <LanguageProvider>
-          <AuthProvider>
-            <ChatSettingsProvider>
-              {children}
-            </ChatSettingsProvider>
-          </AuthProvider>
-        </LanguageProvider>
+        <AppearanceProvider>
+          <LanguageProvider>
+            <AuthProvider>
+              <ChatSettingsProvider>
+                {children}
+              </ChatSettingsProvider>
+            </AuthProvider>
+          </LanguageProvider>
+        </AppearanceProvider>
       </body>
     </html>
   );

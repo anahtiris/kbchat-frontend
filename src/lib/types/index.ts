@@ -61,3 +61,73 @@ export interface KnowledgeBaseService {
     service_name: string;
     submodules: string[];
 }
+
+export type StockStatus = "ok" | "low" | "out";
+
+export interface InventoryItem {
+    id: string;
+    name: string;
+    sku?: string;
+    category: string;
+    unit: string;
+    quantity: number;
+    min_threshold?: number;
+    supplier_name?: string;
+    nearest_expiry?: string;       // ISO date; earliest non-expired batch expiry, computed by backend
+    track_expiry?: boolean;        // false = disable expiry alerts for this item type (default true)
+    expiry_critical_days?: number; // overrides global EXPIRY_CRITICAL_DAYS when set
+    expiry_warning_days?: number;  // overrides global EXPIRY_WARNING_DAYS when set
+    is_active: boolean;
+    created_at?: string;
+    updated_at?: string;
+}
+
+export interface StockMovement {
+    id: string;
+    item_id: string;
+    type: "receive" | "consume" | "adjust" | "expire";
+    quantity_delta: number;
+    reference_id?: string;
+    reference_type?: "procedure_execution" | "manual_adjustment";
+    notes?: string;
+    performed_by: string;
+    created_at: string;
+    lot_number?: string;
+    expiry_date?: string;  // ISO date; only populated on "receive" movements
+}
+
+export interface ProcedureConsumable {
+    item_id: string;
+    item_name: string;
+    unit: string;
+    default_quantity: number;
+    is_optional: boolean;
+}
+
+export interface Procedure {
+    id: string;
+    name: string;
+    category?: string;
+    notes?: string;
+    is_active: boolean;
+    consumables: ProcedureConsumable[];
+    created_at?: string;
+}
+
+export interface ConsumableLineItem extends ProcedureConsumable {
+    adjusted_quantity: number;
+    current_stock: number;
+    min_threshold?: number;
+    status: StockStatus;
+    checked: boolean;
+}
+
+export interface ProcedureExecution {
+    id: string;
+    procedure_id: string;
+    procedure_name: string;
+    performed_by: string;
+    notes?: string;
+    items: { item_id: string; item_name: string; quantity_consumed: number; unit: string }[];
+    created_at: string;
+}

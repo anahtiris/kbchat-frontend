@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, Suspense } from "react";
+import { useEffect, useState, useRef, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Loader2, AlertCircle } from "lucide-react";
 import { useTranslation } from "@/lib/i18n/context";
@@ -11,10 +11,14 @@ function AuthCallback() {
     const searchParams = useSearchParams();
     const { refreshSession } = useAuth();
     const [error, setError] = useState<string | null>(null);
+    const hasRun = useRef(false);
 
     const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || "http://localhost:4000";
 
     useEffect(() => {
+        if (hasRun.current) return;
+        hasRun.current = true;
+
         const handleCallback = async () => {
             const code = searchParams.get("code");
             const state = searchParams.get("state");

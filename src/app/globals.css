@@ -1,8 +1,13 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+
+html {
+  font-size: var(--app-font-size, 16px);
+}
 
 :root {
   --background: #ffffff;
-  --foreground: #0f172a; /* Slate-900 */
+  --foreground: #0f172a;
 }
 
 @theme inline {
@@ -10,13 +15,6 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #020617; /* Slate-950 */
-    --foreground: #f8fafc; /* Slate-50 */
-  }
 }
 
 body {

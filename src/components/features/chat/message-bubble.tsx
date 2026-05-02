@@ -35,15 +35,15 @@ export const MessageBubble = memo(function MessageBubble({ message, selectedServ
         <div
             className={cn(
                 "flex w-full gap-3 p-4",
-                isUser ? "flex-row-reverse bg-slate-50/50" : "bg-white"
+                isUser ? "flex-row-reverse bg-slate-50/50 dark:bg-slate-800/30" : "bg-white dark:bg-slate-900"
             )}
         >
             <div
                 className={cn(
                     "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border shadow-sm",
                     isUser
-                        ? "bg-white text-slate-700"
-                        : "border-blue-100 bg-blue-50 text-blue-600"
+                        ? "bg-white dark:bg-slate-800 dark:border-slate-700 text-slate-700 dark:text-slate-300"
+                        : "border-blue-100 dark:border-blue-900/40 bg-blue-50 dark:bg-blue-900/20 text-blue-600"
                 )}
             >
                 {isUser ? <UserIcon className="h-4 w-4" /> : <Bot className="h-4 w-4" />}
@@ -51,18 +51,18 @@ export const MessageBubble = memo(function MessageBubble({ message, selectedServ
 
             <div className={cn("flex flex-col gap-1 max-w-[90%]", isUser ? "items-end" : "items-start")}>
                 <div className="flex items-center gap-2">
-                    <span className="text-xs font-medium text-slate-500">
+                    <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
                         {isUser ? t.bubble.you : t.bubble.assistant}
                     </span>
-                    <span className="text-xs text-slate-400">
+                    <span className="text-xs text-slate-400 dark:text-slate-500">
                         {new Date(message.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </span>
                 </div>
                 <div className={cn(
                     "rounded-lg px-4 py-3 text-sm leading-relaxed",
                     isUser
-                        ? "bg-slate-900 text-white"
-                        : "bg-slate-50 text-slate-800 border border-slate-100"
+                        ? "bg-slate-900 text-white dark:bg-slate-700"
+                        : "bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border border-slate-100 dark:border-slate-700"
                 )}>
                     <p className="whitespace-pre-wrap">{message.content}</p>
                 </div>
@@ -70,7 +70,7 @@ export const MessageBubble = memo(function MessageBubble({ message, selectedServ
                 {/* Display sources as references */}
                 {relevantSources.length > 0 && (
                     <div className="mt-3 w-full">
-                        <div className="text-xs font-semibold text-slate-600 mb-2 flex items-center gap-1">
+                        <div className="text-xs font-semibold text-slate-600 dark:text-slate-400 mb-2 flex items-center gap-1">
                             <FileText className="h-3 w-3" />
                             {t.bubble.sources}
                         </div>
@@ -78,11 +78,11 @@ export const MessageBubble = memo(function MessageBubble({ message, selectedServ
                             {relevantSources.map((source) => (
                                 <button
                                     key={source.id}
-                                    className="text-xs bg-slate-100 rounded px-2 py-1.5 text-slate-700 border border-slate-200 w-full text-left hover:bg-blue-50 cursor-pointer"
+                                    className="text-xs bg-slate-100 dark:bg-slate-800 rounded px-2 py-1.5 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 w-full text-left hover:bg-blue-50 dark:hover:bg-blue-900/30 cursor-pointer"
                                     onClick={() => handleSourceClick(source)}
                                 >
                                     <div className="font-medium">{source.metadata.section_title}</div>
-                                    <div className="text-slate-600 text-[11px] mt-0.5">
+                                    <div className="text-slate-600 dark:text-slate-400 text-[11px] mt-0.5">
                                         p. {Array.isArray(source.metadata.page_number) ? source.metadata.page_number.join(", ") : source.metadata.page_number} • {(source.similarity * 100).toFixed(1)}%
                                     </div>
                                 </button>
@@ -95,7 +95,7 @@ export const MessageBubble = memo(function MessageBubble({ message, selectedServ
                 {message.citations && message.citations.length > 0 ? (
                     <div className="mt-2 flex gap-2">
                         {message.citations.map(cit => (
-                            <span key={cit} className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-2 py-0.5 text-xs font-medium text-blue-700">
+                            <span key={cit} className="inline-flex items-center rounded-full border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/20 px-2 py-0.5 text-xs font-medium text-blue-700 dark:text-blue-400">
                                 {t.bubble.ref} {cit}
                             </span>
                         ))}

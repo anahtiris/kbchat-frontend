@@ -161,9 +161,9 @@ export function ChatInterface() {
     };
 
     return (
-        <div className="flex flex-col h-full bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+        <div className="flex flex-col h-full bg-white dark:bg-slate-900 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
             {/* Chat Header / Toolbar */}
-            <div className="flex items-center justify-between border-b border-slate-100 bg-slate-50/50 p-4">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-4">
                 <div className="flex items-center gap-4">
                     <ScopeSelector
                         services={services}
@@ -175,7 +175,7 @@ export function ChatInterface() {
                         }}
                     />
                     {(selectedServiceId || selectedSubmodule) && (
-                        <span className="text-xs text-green-600 font-medium flex items-center bg-green-50 px-2 py-1 rounded-full">
+                        <span className="text-xs text-green-600 dark:text-green-400 font-medium flex items-center bg-green-50 dark:bg-green-900/30 px-2 py-1 rounded-full">
                             <span className="w-1.5 h-1.5 rounded-full bg-green-500 mr-1.5 animate-pulse"></span>
                             {t.chat.contextActive}
                         </span>
@@ -209,7 +209,7 @@ export function ChatInterface() {
             </div>
 
             {/* Input Area */}
-            <div className="border-t border-slate-100 p-4 bg-white">
+            <div className="border-t border-slate-100 dark:border-slate-700 p-4 bg-white dark:bg-slate-900">
                 <form onSubmit={handleSendMessage} className="flex gap-2">
                     <Input
                         value={inputValue}

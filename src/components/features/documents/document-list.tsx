@@ -110,7 +110,7 @@ export function DocumentList() {
         <div className="space-y-6">
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div>
-                    <h2 className="text-xl font-bold text-slate-900">{t.docs.tabManuals}</h2>
+                    <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">{t.docs.tabManuals}</h2>
                     <p className="text-sm text-slate-500">{t.docs.description}</p>
                 </div>
                 {canEdit && (
@@ -132,10 +132,10 @@ export function DocumentList() {
                     />
                 </div>
             )}
-            <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 bg-slate-50/50 p-4">
+            <div className="flex flex-wrap items-center gap-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 p-4">
                 <div className="flex items-center gap-2">
                     <FilterIcon className="h-4 w-4 text-slate-400" />
-                    <span className="text-sm font-medium text-slate-700">{t.common.filters || "Filters"}:</span>
+                    <span className="text-sm font-medium text-slate-700 dark:text-slate-300">{t.common.filters || "Filters"}:</span>
                 </div>
 
                 <select
@@ -144,7 +144,7 @@ export function DocumentList() {
                         setServiceFilter(e.target.value);
                         setSubmoduleFilter("all");
                     }}
-                    className="h-9 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="h-9 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
                     <option value="all">{t.docs.filterService}</option>
                     {services.map(s => (
@@ -156,7 +156,7 @@ export function DocumentList() {
                     value={submoduleFilter}
                     onChange={(e) => setSubmoduleFilter(e.target.value)}
                     disabled={serviceFilter === "all"}
-                    className="h-9 rounded-md border border-slate-200 bg-white px-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+                    className="h-9 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 text-sm text-slate-900 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
                 >
                     <option value="all">{t.docs.filterSubmodule}</option>
                     {activeSubmodules.map(sub => (
@@ -184,7 +184,7 @@ export function DocumentList() {
                 </div>
             </div>
 
-            <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+            <div className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 shadow-sm overflow-hidden">
                 {isLoading ? (
                     <div className="flex flex-col items-center justify-center p-20 space-y-4">
                         <div className="w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
@@ -192,39 +192,39 @@ export function DocumentList() {
                     </div>
                 ) : filteredDocs.length === 0 ? (
                     <div className="p-20 text-center text-slate-500">
-                        <FileText className="mx-auto mb-4 h-16 w-16 text-slate-200" />
+                        <FileText className="mx-auto mb-4 h-16 w-16 text-slate-200 dark:text-slate-700" />
                         <p className="text-lg font-medium">{t.docs.noDocs}</p>
                         <p className="text-sm">Try adjusting your filters or add a new manual.</p>
                     </div>
                 ) : (
-                    <div className="divide-y divide-slate-100">
+                    <div className="divide-y divide-slate-100 dark:divide-slate-800">
                         {filteredDocs.map((doc) => (
-                            <div key={doc.id} className="p-4 transition-colors hover:bg-slate-50">
+                            <div key={doc.id} className="p-4 transition-colors hover:bg-slate-50 dark:hover:bg-slate-800/50">
                                 <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-3">
-                                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 text-slate-500">
+                                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
                                             <FileText className="h-5 w-5" />
                                         </div>
                                         <div>
                                             <div className="flex items-center gap-2 mb-1">
-                                                <h4 className="font-semibold text-slate-900">{doc.filename}</h4>
-                                                <span className="inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold uppercase text-slate-600 tracking-wider">
+                                                <h4 className="font-semibold text-slate-900 dark:text-slate-100">{doc.filename}</h4>
+                                                <span className="inline-flex items-center rounded-full bg-slate-100 dark:bg-slate-700 px-2 py-0.5 text-[10px] font-bold uppercase text-slate-600 dark:text-slate-300 tracking-wider">
                                                     ID: {doc.document_id}
                                                 </span>
                                             </div>
                                             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-slate-500">
                                                 <div className="flex items-center gap-1.5">
                                                     <span className="flex h-1.5 w-1.5 rounded-full bg-blue-500"></span>
-                                                    <span className="font-medium text-slate-700">{doc.service_name}</span>
-                                                    <ChevronRight className="h-3 w-3 text-slate-300" />
-                                                    <span className="font-medium text-slate-900">{doc.service_submodule}</span>
+                                                    <span className="font-medium text-slate-700 dark:text-slate-400">{doc.service_name}</span>
+                                                    <ChevronRight className="h-3 w-3 text-slate-300 dark:text-slate-600" />
+                                                    <span className="font-medium text-slate-900 dark:text-slate-200">{doc.service_submodule}</span>
                                                 </div>
-                                                <span className="text-slate-300">|</span>
+                                                <span className="text-slate-300 dark:text-slate-600">|</span>
                                                 <span className="flex items-center gap-1">
                                                     <FileText className="h-3 w-3" />
                                                     {doc.pageCount} {t.docs.pages} ({doc.page_from_inclusive}-{doc.page_to_inclusive})
                                                 </span>
-                                                <span className="hidden sm:inline text-slate-300">|</span>
+                                                <span className="hidden sm:inline text-slate-300 dark:text-slate-600">|</span>
                                                 <span className="hidden sm:inline">{t.docs.uploadedOn} {new Date(doc.uploadedAt).toLocaleDateString()}</span>
                                             </div>
                                         </div>
@@ -236,8 +236,8 @@ export function DocumentList() {
                                                 size="sm"
                                                 onClick={() => setEditingDocId(editingDocId === doc.id ? null : doc.id)}
                                                 className={cn(
-                                                    "border-slate-300 text-slate-700 hover:text-slate-900 hover:bg-slate-50",
-                                                    editingDocId === doc.id ? "bg-slate-100 border-slate-400 text-slate-900" : ""
+                                                    "border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-50 dark:hover:bg-slate-800",
+                                                    editingDocId === doc.id ? "bg-slate-100 dark:bg-slate-700 border-slate-400 text-slate-900 dark:text-slate-100" : ""
                                                 )}
                                             >
                                                 <Settings className="mr-2 h-3 w-3" />
